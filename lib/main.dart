@@ -29,6 +29,19 @@ class MyApp extends StatelessWidget {
                 ),
               ),
             ),
+            Positioned(
+                top: 118,
+                right: 54,
+                left: 54,
+                child: Container(
+                  child: Text(
+                    "lets pass two steps to create your detailed experience",
+                    style: GoogleFonts.poppins(
+                      fontSize: 20,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ))
           ],
         ),
       ),
