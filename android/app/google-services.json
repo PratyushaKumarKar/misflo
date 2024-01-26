@@ -12,7 +12,20 @@
           "package_name": "com.example.misflo"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "46389939094-adf2ihc1cfcd65lcqnhebab6i2in0adu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.misflo",
+            "certificate_hash": "f1e8f64aa8da46814fb47430222e90f70b4d6c01"
+          }
+        },
+        {
+          "client_id": "46389939094-97slfi8daur18iv0o3515966a7mbrbop.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAx5-3Ma2KRg5rm4WX0eeJ6LxJa9npay6g"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "46389939094-97slfi8daur18iv0o3515966a7mbrbop.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
