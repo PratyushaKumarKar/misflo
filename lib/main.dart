@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+Future<void> main() async {
   runApp(const MyApp());
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -31,12 +36,12 @@ class MyApp extends StatelessWidget {
             ),
             Positioned(
               left: 0.01860465116 * screenWidth,
-              top: 0.1162374821 * screenHeight, // Adjust the position as needed
+              top: 0.1162374821 * screenHeight,
               child: Container(
                 width: 0.2992248062 * screenWidth,
                 height: 0.02217453505 * screenHeight,
                 decoration: BoxDecoration(
-                  color: Colors.white, // Assuming you want a white background
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Row(
@@ -48,7 +53,7 @@ class MyApp extends StatelessWidget {
                         'assets/email.svg',
                         width: 24,
                         height: 24,
-                        color: Colors.black, // Set the desired color
+                        color: Colors.black,
                       ),
                     ),
                     Expanded(
@@ -71,12 +76,12 @@ class MyApp extends StatelessWidget {
             ),
             Positioned(
               left: 0.01860465116 * screenWidth,
-              top: 0.145565093 * screenHeight, // Adjust the position as needed
+              top: 0.145565093 * screenHeight,
               child: Container(
                 width: 0.2992248062 * screenWidth,
                 height: 0.02217453505 * screenHeight,
                 decoration: BoxDecoration(
-                  color: Colors.white, // Assuming you want a white background
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Row(
@@ -88,7 +93,7 @@ class MyApp extends StatelessWidget {
                         'assets/password.svg',
                         width: 24,
                         height: 24,
-                        color: Colors.black, // Set the desired color
+                        color: Colors.black,
                       ),
                     ),
                     Expanded(
@@ -109,6 +114,140 @@ class MyApp extends StatelessWidget {
                 ),
               ),
             ),
+            Positioned(
+              top: 0.1766809728 * screenHeight,
+              left: 0.2054263566 * screenWidth,
+              child: Text(
+                "Forgot Password?",
+                style: GoogleFonts.poppins(
+                  fontSize: 0.01085271318 * screenWidth,
+                ),
+              ),
+            ),
+            Positioned(
+              left: 0.03875968992 * screenWidth,
+              top: 0.1949213162 * screenHeight, // Adjust the position as needed
+              child: Container(
+                width: 0.2558139535 * screenWidth,
+                height: 0.02324749642 * screenHeight,
+                child: TextButton(
+                  onPressed: () {
+                    // Handle button press
+                  },
+                  style: TextButton.styleFrom(
+                    backgroundColor: const Color(0xFFFF9494),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding:
+                            EdgeInsets.only(left: 0.07751937984 * screenWidth),
+                        child: Text(
+                          'Sign in',
+                          style: GoogleFonts.poppins(
+                            color: Colors.white,
+                            fontSize: 0.01860465116 * screenWidth,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: 0.05813953488 * screenWidth,
+                            right: 0.01162790698 * screenWidth),
+                        child: SvgPicture.asset(
+                          'assets/round_arrow.svg',
+                          width: 24,
+                          height: 24,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              top: 0.241416309 * screenHeight,
+              left: 0.1558139535 * screenWidth,
+              child: Text(
+                "OR",
+                style: GoogleFonts.poppins(
+                    fontSize: 0.01240310078 * screenWidth,
+                    fontWeight: FontWeight.w500),
+              ),
+            ),
+            Positioned(
+              left: 0.03875968992 * screenWidth,
+              top: 0.2775393419 * screenHeight, // Adjust the position as needed
+              child: Container(
+                width: 0.2558139535 * screenWidth,
+                height: 0.02324749642 * screenHeight,
+                child: TextButton(
+                  onPressed: () {
+                    // Handle button press
+                  },
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: 0.04341085271 * screenWidth,
+                        ),
+                        child: SvgPicture.asset(
+                          'assets/google.svg',
+                          width: 0.02403100775 * screenWidth,
+                          height: 0.01108726753 * screenHeight,
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            EdgeInsets.only(left: 0.01937984496 * screenWidth),
+                        child: Text(
+                          'Sign in With Google',
+                          style: GoogleFonts.poppins(
+                            color: Colors.black,
+                            fontSize: 0.01240310078 * screenWidth,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+                left: 0.06589147287 * screenWidth,
+                top: 0.3118741059 * screenHeight,
+                child: Row(
+                  children: [
+                    Text(
+                      "Don't have an account?",
+                      style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 0.01162790698 * screenWidth),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Text(
+                        "Sign up",
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xFFB14747),
+                            fontSize: 0.01162790698 * screenWidth),
+                      ),
+                    )
+                  ],
+                ))
           ],
         ),
       ),

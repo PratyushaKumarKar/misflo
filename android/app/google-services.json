@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "46389939094",
+    "project_id": "misflo",
+    "storage_bucket": "misflo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:46389939094:android:a156133c92077e2e5c2bb7",
+        "android_client_info": {
+          "package_name": "com.example.misflo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAx5-3Ma2KRg5rm4WX0eeJ6LxJa9npay6g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
