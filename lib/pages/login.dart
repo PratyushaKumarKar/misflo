@@ -146,15 +146,15 @@ class Login extends StatelessWidget {
                             'Sign in',
                             style: GoogleFonts.poppins(
                               color: Colors.white,
-                              fontSize: 0.01860465116 * screenWidth,
+                              fontSize: 0.018 * screenWidth,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
                         ),
                         Padding(
                           padding: EdgeInsets.only(
-                              left: 0.05813953488 * screenWidth,
-                              right: 0.01162790698 * screenWidth),
+                              left: 0.05813953 * screenWidth,
+                              right: 0.01162790 * screenWidth),
                           child: SvgPicture.asset(
                             'assets/round_arrow.svg',
                             width: 24,
@@ -291,7 +291,6 @@ Future<void> _signInWithGoogle(BuildContext context) async {
       // User is signed in
       await _updateUserData(user);
 
-      // Navigate to the home screen using the valid context
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
