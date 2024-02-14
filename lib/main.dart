@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
     var screenHeight = MediaQuery.of(context).size.height * 3;
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: user == null
           ? Login()
           : Home(
