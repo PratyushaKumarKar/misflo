@@ -49,10 +49,12 @@ class Home extends StatelessWidget {
                   top: height(context, 32),
                   left: width(context, 14),
                   child: Text(
-                    " Hey! " +
+                    "👋 Hey! " +
                         toBeginningOfSentenceCase(displayName.split(" ")[0]),
                     style: GoogleFonts.poppins(
-                        fontSize: width(context, 20), color: Colors.black),
+                        fontSize: height(context, 20),
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500),
                   ),
                 )
               ],

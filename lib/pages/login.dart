@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:misflo/pages/home.dart';
+import 'package:misflo/pages/navigation_page.dart';
 import 'package:misflo/utils/screentools.dart';
 
 class Login extends StatelessWidget {
@@ -329,7 +330,7 @@ Future<void> _signInWithGoogle(BuildContext context) async {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (context) => Home(
+            builder: (context) => NavigationPage(
                   user: user,
                 )),
       );

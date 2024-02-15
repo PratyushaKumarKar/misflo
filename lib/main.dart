@@ -7,6 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:misflo/pages/home.dart';
 import 'package:misflo/pages/login.dart';
+import 'package:misflo/pages/navigation_page.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: user == null
           ? Login()
-          : Home(
+          : NavigationPage(
               user: user!,
             ),
     );

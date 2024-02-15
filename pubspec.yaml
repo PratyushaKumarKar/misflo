@@ -42,6 +42,7 @@ dependencies:
   cloud_firestore: ^4.14.0
   google_sign_in: ^6.2.1
   intl: ^0.19.0
+  curved_navigation_bar: ^1.0.3
 
 dev_dependencies:
   flutter_test:
@@ -68,6 +69,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/
+    - assets/navbar/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
