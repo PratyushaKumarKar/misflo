@@ -67,7 +67,7 @@ class _HomeState extends State<Home> {
             _scrollController.animateTo(
               currentIndex * width(context, 90.2),
               duration: Duration(milliseconds: 200),
-              curve: Curves.bounceInOut,
+              curve: Curves.linear,
             );
           });
           return SafeArea(
@@ -230,6 +230,159 @@ class _HomeState extends State<Home> {
                                   ),
                                 );
                               },
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: height(context, 320),
+                          left: width(context, 7),
+                          child: Container(
+                            width: width(context, 416),
+                            height: height(context, 316),
+                            child: Stack(
+                              clipBehavior: Clip.hardEdge,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 5.0, left: 2, right: 2),
+                                  child: Container(
+                                    width: width(context, 416),
+                                    height: height(context, 316),
+                                    decoration: BoxDecoration(
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.25),
+                                          spreadRadius: 0,
+                                          blurRadius: 4.9,
+                                          offset: Offset(0,
+                                              -3), // changes position of shadow
+                                        ),
+                                      ],
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(
+                                          33), // Optional: Add a border radius
+                                    ),
+                                    // Add any child widgets here, if needed
+                                  ),
+                                ),
+                                Positioned(
+                                  top: height(context, 55.5),
+                                  left: -width(context, 8),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Container(
+                                      height: height(context, 417.25),
+                                      width: width(context, 416),
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Colors.white,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color:
+                                                  Colors.grey.withOpacity(0.5),
+                                              spreadRadius: 0,
+                                              blurRadius: 4.9,
+                                              offset: Offset(-2,
+                                                  -4), // changes position of shadow
+                                            ),
+                                          ]),
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                  top: height(context, 105),
+                                  left: width(context, 30),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Container(
+                                      height: height(context, 332.25),
+                                      width: width(context, 338),
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Color(0xFFC1A0EC),
+                                        // boxShadow: [
+                                        //   BoxShadow(
+                                        //     color: Colors.grey.withOpacity(0.5),
+                                        //     spreadRadius: 0,
+                                        //     blurRadius: 4.9,
+                                        //     offset: Offset(0,
+                                        //         1), // changes position of shadow
+                                        //   ),
+                                        // ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                    top: height(context, 24),
+                                    left: width(context, 24),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: Color(0xFFC1A0EC)),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(13))),
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            top: height(context, 2),
+                                            bottom: height(context, 2),
+                                            left: width(context, 8),
+                                            right: width(context, 8)),
+                                        child: Text(DateFormat('dd,MMMM')
+                                            .format(currentDate)),
+                                      ),
+                                    )),
+                                Positioned(
+                                  top: height(context, 142.57),
+                                  left: width(context, 67.68),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Container(
+                                      height: height(context, 257.54),
+                                      width: width(context, 262.56),
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Color(0xFF211F1F),
+                                        // boxShadow: [
+                                        //   BoxShadow(
+                                        //     color: Colors.grey.withOpacity(0.5),
+                                        //     spreadRadius: 0,
+                                        //     blurRadius: 4.9,
+                                        //     offset: Offset(0,
+                                        //         1), // changes position of shadow
+                                        //   ),
+                                        // ],
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                top: height(context, 49.0)),
+                                            child: Text(
+                                              "Periods in",
+                                              style: GoogleFonts.poppins(
+                                                  fontSize: width(context, 16),
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                top: height(context, 5.0)),
+                                            child: Text(
+                                              "5 Days",
+                                              style: GoogleFonts.poppins(
+                                                  fontSize: width(context, 36),
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
                             ),
                           ),
                         ),
