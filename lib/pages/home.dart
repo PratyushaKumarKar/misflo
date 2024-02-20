@@ -1,9 +1,8 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:misflo/pages/doctor.dart';
 import 'package:misflo/utils/screentools.dart';
 import 'package:intl/intl.dart' show DateFormat, toBeginningOfSentenceCase;
 
@@ -14,6 +13,105 @@ class Home extends StatefulWidget {
 
   @override
   State<Home> createState() => _HomeState();
+}
+
+// This is the Period Button Widget
+class PeriodTrackerCard extends StatefulWidget {
+  final double height;
+  final double width;
+  const PeriodTrackerCard(
+      {super.key, required this.height, required this.width});
+
+  @override
+  _PeriodTrackerCardState createState() => _PeriodTrackerCardState();
+}
+
+class _PeriodTrackerCardState extends State<PeriodTrackerCard> {
+  // Dummy values for demonstration; you might want to replace these with real data
+  int daysUntilPeriod = 3;
+  bool isFertile = false;
+
+  void _logCycleStart() {
+    //  Implement your logic to log the menstrual cycle start time
+    print("Cycle start logged at ${DateTime.now()}");
+    // Update your database or state management solution accordingly
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: widget.width,
+      height: widget.height,
+      padding: const EdgeInsets.all(16.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(25),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.3),
+            spreadRadius: 5,
+            blurRadius: 7,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            DateFormat('d MMMM, y').format(DateTime.now()),
+            style: const TextStyle(
+              color: Colors.black54,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: 20),
+          InkWell(
+            onTap: _logCycleStart,
+            child: Container(
+              width: 180,
+              height: 180,
+              decoration: BoxDecoration(
+                color: Color(0xFFC1A0EC),
+                shape: BoxShape.circle,
+              ),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Periods in',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                      ),
+                    ),
+                    Text(
+                      '$daysUntilPeriod Days',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                      ),
+                    ),
+                    Text(
+                      isFertile
+                          ? 'High chance of getting pregnant'
+                          : 'Low chance of getting pregnant',
+                      style: TextStyle(
+                        color: Colors.white70,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 class _HomeState extends State<Home> {
@@ -39,7 +137,7 @@ class _HomeState extends State<Home> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             // Return a loading indicator or placeholder
-            return CircularProgressIndicator();
+            return const CircularProgressIndicator();
           }
 
           if (snapshot.hasError) {
@@ -233,6 +331,12 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                         ),
+                        Positioned(
+                            top: height(context, 325),
+                            left: width(context, 7),
+                            child: PeriodTrackerCard(
+                                height: height(context, 316),
+                                width: width(context, 416))),
                       ],
                     ),
                   ),
@@ -240,9 +344,42 @@ class _HomeState extends State<Home> {
                 Positioned(
                   right: width(context, 14),
                   top: height(context, 18),
-                  child: CircleAvatar(
-                    radius: height(context, 27),
-                    backgroundImage: NetworkImage(photoUrl),
+                  child: GestureDetector(
+                    onTapDown: (details) {
+                      // Show a blur effect
+
+                      showMenu(
+                        context: context,
+                        position: RelativeRect.fromLTRB(
+                          details.globalPosition.dx,
+                          details.globalPosition.dy,
+                          details.globalPosition.dx,
+                          details.globalPosition.dy,
+                        ),
+                        items: [
+                          PopupMenuItem(
+                            child: Text('Log Out'),
+                            onTap: () {
+                              // Handle option 1 tap
+                            },
+                          ),
+                          PopupMenuItem(
+                            child: Text('My Doctors'),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const DoctorsPage()));
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                    child: CircleAvatar(
+                      radius: height(context, 27),
+                      backgroundImage: NetworkImage(photoUrl),
+                    ),
                   ),
                 ),
               ],
