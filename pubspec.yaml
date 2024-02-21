@@ -43,6 +43,10 @@ dependencies:
   google_sign_in: ^6.2.1
   intl: ^0.19.0
   curved_navigation_bar: ^1.0.3
+  file_picker: ^5.0.1
+  firebase_storage: ^11.6.3
+  path: ^1.8.3
+  photo_view: ^0.14.0
   flutter_gemini: ^2.0.3
   flutter_markdown: ^0.6.20
 
