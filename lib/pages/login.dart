@@ -5,6 +5,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:misflo/pages/home.dart';
+import 'package:misflo/pages/navigation_page.dart';
+import 'package:misflo/utils/screentools.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});
@@ -15,236 +17,270 @@ class Login extends StatelessWidget {
     var screenHeight = MediaQuery.of(context).size.height * 3;
     return Builder(builder: (BuildContext context) {
       return Scaffold(
-          backgroundColor: const Color(0xFFF9D2D2),
+          backgroundColor: Colors.white,
           body: Stack(
             children: [
               Positioned(
-                left: 0.01937984496 * screenWidth,
-                top: 0.09549356223 * screenHeight,
-                child: Text(
-                  "Sign in",
-                  style: GoogleFonts.poppins(
-                    fontSize: 0.01860465116 * screenWidth,
-                    color: const Color(0xFF120D26),
-                  ),
+                top: -10,
+                left: width(context, 0),
+                child: Container(
+                  width: width(context, 430),
+                  height: height(context, 380),
+                  child: Image.asset("assets/login_background.png"),
                 ),
               ),
               Positioned(
-                left: 0.01860465116 * screenWidth,
-                top: 0.1162374821 * screenHeight,
+                top: height(context, 272),
                 child: Container(
-                  width: 0.2992248062 * screenWidth,
-                  height: 0.02217453505 * screenHeight,
+                  height: height(context, 660),
+                  width: width(context, 430),
                   decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Row(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(width(context, 51)),
+                          topRight: Radius.circular(width(context, 51)))),
+                  child: Stack(
                     children: [
-                      Padding(
-                        padding:
-                            EdgeInsets.only(left: 0.01395348837 * screenWidth),
-                        child: SvgPicture.asset(
-                          'assets/email.svg',
-                          width: 24,
-                          height: 24,
-                          color: Colors.black,
-                        ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              left: 0.01317829457 * screenWidth),
-                          child: TextField(
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: 'Email',
-                              hintStyle: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w900),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 0.01860465116 * screenWidth,
-                top: 0.145565093 * screenHeight,
-                child: Container(
-                  width: 0.2992248062 * screenWidth,
-                  height: 0.02217453505 * screenHeight,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding:
-                            EdgeInsets.only(left: 0.01395348837 * screenWidth),
-                        child: SvgPicture.asset(
-                          'assets/password.svg',
-                          width: 24,
-                          height: 24,
-                          color: Colors.black,
-                        ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              left: 0.01317829457 * screenWidth),
-                          child: TextField(
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: 'Password',
-                              hintStyle: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w900),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 0.1766809728 * screenHeight,
-                left: 0.2054263566 * screenWidth,
-                child: Text(
-                  "Forgot Password?",
-                  style: GoogleFonts.poppins(
-                    fontSize: 0.01085271318 * screenWidth,
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 0.03875968992 * screenWidth,
-                top: 0.1949213162 *
-                    screenHeight, // Adjust the position as needed
-                child: Container(
-                  width: 0.2558139535 * screenWidth,
-                  height: 0.02324749642 * screenHeight,
-                  child: TextButton(
-                    onPressed: () {
-                      // Handle button press
-                    },
-                    style: TextButton.styleFrom(
-                      backgroundColor: const Color(0xFFFF9494),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(
-                              left: 0.07751937984 * screenWidth),
-                          child: Text(
-                            'Sign in',
-                            style: GoogleFonts.poppins(
-                              color: Colors.white,
-                              fontSize: 0.01860465116 * screenWidth,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              left: 0.05813953488 * screenWidth,
-                              right: 0.01162790698 * screenWidth),
-                          child: SvgPicture.asset(
-                            'assets/round_arrow.svg',
-                            width: 24,
-                            height: 24,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 0.241416309 * screenHeight,
-                left: 0.1558139535 * screenWidth,
-                child: Text(
-                  "OR",
-                  style: GoogleFonts.poppins(
-                      fontSize: 0.01240310078 * screenWidth,
-                      fontWeight: FontWeight.w500),
-                ),
-              ),
-              Positioned(
-                left: 0.03875968992 * screenWidth,
-                top: 0.2775393419 *
-                    screenHeight, // Adjust the position as needed
-                child: Container(
-                  width: 0.2558139535 * screenWidth,
-                  height: 0.02324749642 * screenHeight,
-                  child: TextButton(
-                    onPressed: () async {
-                      await _signInWithGoogle(context);
-                    },
-                    style: TextButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                    ),
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(
-                            left: 0.04341085271 * screenWidth,
-                          ),
-                          child: SvgPicture.asset(
-                            'assets/google.svg',
-                            width: 0.02403100775 * screenWidth,
-                            height: 0.01108726753 * screenHeight,
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              left: 0.01937984496 * screenWidth),
-                          child: Text(
-                            'Sign in With Google',
-                            style: GoogleFonts.poppins(
-                              color: Colors.black,
-                              fontSize: 0.01240310078 * screenWidth,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                  left: 0.06589147287 * screenWidth,
-                  top: 0.3118741059 * screenHeight,
-                  child: Row(
-                    children: [
-                      Text(
-                        "Don't have an account?",
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 0.01162790698 * screenWidth),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
+                      Positioned(
+                        left: width(context, 44),
+                        top: height(context, 32),
                         child: Text(
-                          "Sign up",
+                          "Login",
                           style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xFFB14747),
-                              fontSize: 0.01162790698 * screenWidth),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 0.01860465116 * screenWidth,
+                            color: const Color(0xFF120D26),
+                          ),
                         ),
-                      )
+                      ),
+                      Positioned(
+                        left: width(context, 45),
+                        top: height(context, 84),
+                        width: width(context, 339),
+                        child: Container(
+                          width: width(context, 339),
+                          height: height(context, 62),
+                          decoration: BoxDecoration(
+                            border: Border.all(),
+                            color: Colors.white,
+                            borderRadius:
+                                BorderRadius.circular(width(context, 12)),
+                          ),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding:
+                                    EdgeInsets.only(left: width(context, 18)),
+                                child: SvgPicture.asset(
+                                  'assets/email.svg',
+                                  width: 24,
+                                  height: 24,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding:
+                                      EdgeInsets.only(left: width(context, 15)),
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Email',
+                                      hintStyle: GoogleFonts.poppins(
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: width(context, 45),
+                        top: height(context, 163),
+                        width: width(context, 341),
+                        child: Container(
+                          width: width(context, 341),
+                          height: height(context, 62),
+                          decoration: BoxDecoration(
+                            border: Border.all(),
+                            color: Colors.white,
+                            borderRadius:
+                                BorderRadius.circular(width(context, 12)),
+                          ),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding:
+                                    EdgeInsets.only(left: width(context, 18)),
+                                child: SvgPicture.asset(
+                                  'assets/password.svg',
+                                  width: 24,
+                                  height: 24,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding:
+                                      EdgeInsets.only(left: width(context, 15)),
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Password',
+                                      hintStyle: GoogleFonts.poppins(
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: height(context, 248),
+                        left: width(context, 247),
+                        child: Text(
+                          "Forgot Password?",
+                          style: GoogleFonts.poppins(
+                            fontSize: width(context, 14),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: width(context, 50),
+                        top: height(context, 300),
+                        child: Container(
+                          width: width(context, 330),
+                          height: height(context, 65),
+                          child: TextButton(
+                            onPressed: () {
+                              // Handle button press
+                            },
+                            style: TextButton.styleFrom(
+                              backgroundColor: const Color(0xFFAF61FC),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      left: width(context, 100)),
+                                  child: Text(
+                                    'Sign in',
+                                    style: GoogleFonts.poppins(
+                                      color: Colors.white,
+                                      fontSize: width(context, 23),
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      left: width(context, 75),
+                                      right: width(context, 15)),
+                                  child: SvgPicture.asset(
+                                    'assets/round_arrow.svg',
+                                    width: 24,
+                                    height: 24,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: height(context, 397),
+                        left: width(context, 200),
+                        child: Text(
+                          "OR",
+                          style: GoogleFonts.poppins(
+                              fontSize: width(context, 16),
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                      Positioned(
+                        left: 0.03875968992 * screenWidth,
+                        top: height(context, 463),
+                        child: Container(
+                          width: 0.2558139535 * screenWidth,
+                          height: 0.02324749642 * screenHeight,
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              await _signInWithGoogle(context);
+                            },
+                            style: TextButton.styleFrom(
+                              elevation: 10,
+                              surfaceTintColor: Colors.white,
+                              foregroundColor: Colors.white,
+                              backgroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.circular(width(context, 15.0)),
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    left: width(context, 24),
+                                  ),
+                                  child: SvgPicture.asset(
+                                    'assets/google.svg',
+                                    width: 0.02403100775 * screenWidth,
+                                    height: 0.01108726753 * screenHeight,
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      EdgeInsets.only(left: width(context, 24)),
+                                  child: Text(
+                                    'Sign in With Google',
+                                    style: GoogleFonts.poppins(
+                                      color: Colors.black,
+                                      fontSize: 0.01240310078 * screenWidth,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                          left: width(context, 82),
+                          top: height(context, 586),
+                          child: Row(
+                            children: [
+                              Text(
+                                "Don't have an account?",
+                                style: GoogleFonts.poppins(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 0.01162790698 * screenWidth),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: Text(
+                                  "Sign up",
+                                  style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w500,
+                                      color: Color(0xFFAF61FC),
+                                      fontSize: 0.01162790698 * screenWidth),
+                                ),
+                              )
+                            ],
+                          ))
                     ],
-                  ))
+                  ),
+                ),
+              ),
             ],
           ));
     });
@@ -291,11 +327,10 @@ Future<void> _signInWithGoogle(BuildContext context) async {
       // User is signed in
       await _updateUserData(user);
 
-      // Navigate to the home screen using the valid context
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (context) => Home(
+            builder: (context) => NavigationPage(
                   user: user,
                 )),
       );
