@@ -177,84 +177,96 @@ class _DietState extends State<Diet> {
                 child: Image.asset('assets/soupot.jpg'),
               ),
             ),
-            Card(
-              color: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18),
-              ),
-              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        const Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                'Track upto\n2,000 calories',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
-                                ),
-                              ),
-                              SizedBox(height: 4),
-                              Text(
-                                '500 users tracked their food in last 24 Hrs',
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          height: 48,
-                          width: 48,
-                          decoration: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                          child: const Icon(
-                            Icons.add,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
+
+            Stack(
+              alignment: Alignment.bottomCenter,
+              children: <Widget>[
+                Positioned(
+                  left: 16,
+                  right: 16,
+                  bottom: 19,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Handle button tap for creating diet and workout plan
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.orange,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(16),
+                            bottomRight: Radius.circular(16)),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 15.0),
+                      // Makes the button stretch to the full width of its parent
+                      minimumSize: const Size.fromHeight(50),
                     ),
-                    const SizedBox(height: 16),
-                  ],
+                    child: const Text(
+                      'Create your Diet & Workout Plan',
+                      style: TextStyle(
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
-              child: ElevatedButton(
-                onPressed: () {
-                  // Handle button tap for creating diet and workout plan
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.orange,
+                Card(
+                  color: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(18),
                   ),
-
-                  padding: const EdgeInsets.symmetric(vertical: 15.0),
-                  // Makes the button stretch to the full width of its parent
-                  minimumSize: const Size.fromHeight(50),
-                ),
-                child: const Text(
-                  'Create your Diet & Workout Plan',
-                  style: TextStyle(
-                    color: Colors.black,
+                  margin: const EdgeInsets.fromLTRB(16, 16, 16,
+                      58), // Increase bottom margin to accommodate the button
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            const Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    'Track upto\n2,000 calories',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                  SizedBox(height: 4),
+                                  Text(
+                                    '500 users tracked their food in last 24 Hrs',
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              height: 48,
+                              width: 48,
+                              decoration: BoxDecoration(
+                                color: Colors.black,
+                                borderRadius: BorderRadius.circular(24),
+                              ),
+                              child: const Icon(
+                                Icons.add,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                            height: 24), // Increased space for visual balance
+                      ],
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
+
             const Divider(),
             const ListTile(
               title: Text('Weight goals'),
