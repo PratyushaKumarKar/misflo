@@ -184,6 +184,7 @@ class _DietState extends State<Diet> {
                             ],
                           ),
                           child: Image.asset(
+                              fit: BoxFit.contain,
                               'assets/cereal.jpg'), // Image path kept as provided
                         ),
                       ),
