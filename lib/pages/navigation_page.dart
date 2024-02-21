@@ -6,6 +6,7 @@ import 'package:misflo/pages/home.dart';
 import 'package:misflo/utils/screentools.dart';
 import 'dart:ui' as ui;
 
+
 //Copy this CustomPainter code to the Bottom of the File
 
 //Copy this CustomPainter code to the Bottom of the File
@@ -112,7 +113,7 @@ class _NavigationPageState extends State<NavigationPage> {
   Widget build(BuildContext context) {
     List<Widget> Pages = [
       Text("Diet"),
-      const Text("Claender"),
+      const Text("Calender"),
       Home(user: widget.user),
       Text("Exercise"),
       Text("Communiuty")

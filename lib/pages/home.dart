@@ -15,105 +15,6 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
-// This is the Period Button Widget
-class PeriodTrackerCard extends StatefulWidget {
-  final double height;
-  final double width;
-  const PeriodTrackerCard(
-      {super.key, required this.height, required this.width});
-
-  @override
-  _PeriodTrackerCardState createState() => _PeriodTrackerCardState();
-}
-
-class _PeriodTrackerCardState extends State<PeriodTrackerCard> {
-  // Dummy values for demonstration; you might want to replace these with real data
-  int daysUntilPeriod = 3;
-  bool isFertile = false;
-
-  void _logCycleStart() {
-    //  Implement your logic to log the menstrual cycle start time
-    print("Cycle start logged at ${DateTime.now()}");
-    // Update your database or state management solution accordingly
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: widget.width,
-      height: widget.height,
-      padding: const EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(25),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
-            spreadRadius: 5,
-            blurRadius: 7,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            DateFormat('d MMMM, y').format(DateTime.now()),
-            style: const TextStyle(
-              color: Colors.black54,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          SizedBox(height: 20),
-          InkWell(
-            onTap: _logCycleStart,
-            child: Container(
-              width: 180,
-              height: 180,
-              decoration: BoxDecoration(
-                color: Color(0xFFC1A0EC),
-                shape: BoxShape.circle,
-              ),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Periods in',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                      ),
-                    ),
-                    Text(
-                      '$daysUntilPeriod Days',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 24,
-                      ),
-                    ),
-                    Text(
-                      isFertile
-                          ? 'High chance of getting pregnant'
-                          : 'Low chance of getting pregnant',
-                      style: TextStyle(
-                        color: Colors.white70,
-                        fontSize: 14,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class _HomeState extends State<Home> {
   late OverlayEntry _overlayEntry;
 
@@ -150,6 +51,9 @@ class _HomeState extends State<Home> {
           var photoUrl = userData['photoURL'];
           var displayName = userData["displayName"];
           var currentDate = DateTime.now();
+          DateTime lastPeriodLog =
+              (userData["periodLastLog"] as Timestamp).toDate();
+          var difference = currentDate.difference(lastPeriodLog).inDays;
           var januaryFirstIndex =
               currentDate.difference(DateTime(currentDate.year, 1, 1)).inDays;
           print(januaryFirstIndex);
@@ -332,11 +236,147 @@ class _HomeState extends State<Home> {
                           ),
                         ),
                         Positioned(
-                            top: height(context, 325),
-                            left: width(context, 7),
-                            child: PeriodTrackerCard(
-                                height: height(context, 316),
-                                width: width(context, 416))),
+                          top: height(context, 320),
+                          left: width(context, 7),
+                          child: Container(
+                            width: width(context, 416),
+                            height: height(context, 316),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(33),
+                              child: Stack(
+                                clipBehavior: Clip.hardEdge,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 5.0, left: 2, right: 2),
+                                    child: Container(
+                                      width: width(context, 416),
+                                      height: height(context, 316),
+                                      decoration: BoxDecoration(
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color:
+                                                Colors.black.withOpacity(0.25),
+                                            spreadRadius: 0,
+                                            blurRadius: 4.9,
+                                            offset: Offset(0, -3),
+                                          ),
+                                        ],
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(33),
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top: height(context, 55.5),
+                                    left: -width(context, 8),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: Container(
+                                        height: height(context, 417.25),
+                                        width: width(context, 416),
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Colors.white,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color:
+                                                  Colors.grey.withOpacity(0.5),
+                                              spreadRadius: 0,
+                                              blurRadius: 4.9,
+                                              offset: Offset(-2, -4),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top: height(context, 105),
+                                    left: width(context, 30),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: Container(
+                                        height: height(context, 332.25),
+                                        width: width(context, 338),
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Color(0xFFC1A0EC),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top: height(context, 24),
+                                    left: width(context, 24),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Color(0xFFC1A0EC)),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(13)),
+                                      ),
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                          top: height(context, 2),
+                                          bottom: height(context, 2),
+                                          left: width(context, 8),
+                                          right: width(context, 8),
+                                        ),
+                                        child: Text(DateFormat('dd,MMMM')
+                                            .format(currentDate)),
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top: height(context, 142.57),
+                                    left: width(context, 67.68),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: Container(
+                                        height: height(context, 257.54),
+                                        width: width(context, 282.56),
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Color(0xFF211F1F),
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  top: height(context, 49.0)),
+                                              child: Text(
+                                                "Periods in",
+                                                style: GoogleFonts.poppins(
+                                                  fontSize: width(context, 16),
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  top: height(context, 5.0)),
+                                              child: Text(
+                                                difference.toString() +
+                                                    " Days ",
+                                                style: GoogleFonts.poppins(
+                                                  fontSize: width(context, 36),
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
