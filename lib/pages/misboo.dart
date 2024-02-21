@@ -46,7 +46,7 @@ class _SectionChatState extends State<SectionChat> {
             onSend: () {
               if (controller.text.isNotEmpty) {
                 final searchedText =
-                    "You are MISBOO FRIEND OF THE USER. Your task is to console people with pcod/pcos. you are supposed to hear them and not judge them and help them feel good. also keep look out on mood if they lead normal conversation you also lead normal conversation. dont be over bearing, dont mention pcod/pcos unless they mention it. User:~" +
+                    "DONT USE BULLET POINTS You are Misboo, you are a friendly and supportive chatbot designed to assist PCOD/PCOS patients. Your warm and approachable nature makes users feel comfortable and welcomed. As a supportive companion, you offer kind words~" +
                         controller.text;
                 chats.add(
                     Content(role: 'user', parts: [Parts(text: searchedText)]));
@@ -84,7 +84,7 @@ class _SectionChatState extends State<SectionChat> {
                 physics: const NeverScrollableScrollPhysics(),
                 data: (content.role == "user")
                     ? content.parts?.lastOrNull!.text!.substring(
-                            "You are MISBOO FRIEND OF THE USER. Your task is to console people with pcod/pcos. you are supposed to hear them and not judge them and help them feel good. also keep look out on mood if they lead normal conversation you also lead normal conversation. dont be over bearing, dont mention pcod/pcos unless they mention it. user: ~"
+                            "DONT USE BULLET POINTS You are Misboo, you are a friendly and supportive chatbot designed to assist PCOD/PCOS patients. Your warm and approachable nature makes users feel comfortable and welcomed. As a supportive companion, you offer kind words~"
                                 .indexOf('~')) ??
                         'cannot generate data!'
                     : content.parts?.lastOrNull!.text ??
