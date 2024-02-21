@@ -78,7 +78,7 @@ class _DoctorsPageState extends State<DoctorsPage>
           children: [
             // Scrollable doctors section
             Container(
-              height: height(context, 507),
+              height: height(context, 400),
               child: Expanded(
                 flex:
                     1, // Adjust the flex factor to control the height of the doctor cards list relative to the tabs section
