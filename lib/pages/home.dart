@@ -69,7 +69,7 @@ class _HomeState extends State<Home> {
             _scrollController.animateTo(
               currentIndex * width(context, 90.2),
               duration: Duration(milliseconds: 200),
-              curve: Curves.bounceInOut,
+              curve: Curves.linear,
             );
           });
           return SafeArea(
