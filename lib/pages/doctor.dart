@@ -1,9 +1,15 @@
+import 'dart:io';
+import 'package:path/path.dart' as path;
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:misflo/utils/screentools.dart';
 
 class DoctorsPage extends StatefulWidget {
-  const DoctorsPage({super.key});
+  final User user;
+  const DoctorsPage({super.key, required this.user});
 
   @override
   State<DoctorsPage> createState() => _DoctorsPageState();
@@ -25,6 +31,9 @@ class _DoctorsPageState extends State<DoctorsPage>
       'imageUrl': 'assets/doctor2.png',
     },
   ];
+
+  // List to hold uploaded documents
+  List<Map<String, dynamic>> uploadedDocuments = [];
 
   @override
   void initState() {
@@ -141,7 +150,7 @@ class _DoctorsPageState extends State<DoctorsPage>
                       labelColor: Colors.black,
                       unselectedLabelColor: Colors.grey,
                       indicatorColor: Colors.orange,
-                      tabs: [
+                      tabs: const [
                         Tab(text: 'Appointments'),
                         Tab(text: 'History'),
                         Tab(text: 'Medication'),
@@ -153,7 +162,92 @@ class _DoctorsPageState extends State<DoctorsPage>
                         children: [
                           // Replace with actual content
                           Center(child: Text('Appointments Content')),
-                          Center(child: Text('History Content')),
+                          // Stack(
+                          //   children: [
+                          //     // Your history content here
+                          //     Center(child: Text('Upload Documents')),
+                          //     Positioned(
+                          //       top: 0,
+                          //       right: 0,
+                          //       child: Padding(
+                          //         padding: const EdgeInsets.all(8.0),
+                          //         child: FloatingActionButton(
+                          //           onPressed: () async {
+                          //             //  UploadDocumentButton(user: widget.user);
+                          //             FilePickerResult? result =
+                          //                 await FilePicker.platform.pickFiles(
+                          //               type: FileType.custom,
+                          //               allowedExtensions: [
+                          //                 'jpg',
+                          //                 'jpeg',
+                          //                 'png'
+                          //               ],
+                          //             );
+                          //             if (result != null) {
+                          //               PlatformFile file = result.files.first;
+
+                          //               // Create a storage reference
+                          //               FirebaseStorage storage =
+                          //                   FirebaseStorage.instance;
+                          //               Reference ref = storage
+                          //                   .ref()
+                          //                   .child('uploads/${file.name}');
+                          //               UploadTask uploadTask =
+                          //                   ref.putFile(File(file.path!));
+
+                          //               // Start the upload task
+                          //               uploadTask.then((res) async {
+                          //                 final url =
+                          //                     await res.ref.getDownloadURL();
+                          //                 // Here you can store the URL to Firestore or another service
+                          //                 FirebaseFirestore.instance
+                          //                     .collection(
+                          //                         'users/${widget.user.uid}/documents')
+                          //                     .add({
+                          //                   'url': url,
+                          //                   'name': file.name,
+                          //                   'uploaded_at':
+                          //                       FieldValue.serverTimestamp(),
+                          //                 });
+
+                          //                 ScaffoldMessenger.of(context)
+                          //                     .showSnackBar(
+                          //                   const SnackBar(
+                          //                       content:
+                          //                           Text('Upload complete')),
+                          //                 );
+                          //               }).catchError((e) {
+                          //                 ScaffoldMessenger.of(context)
+                          //                     .showSnackBar(
+                          //                   const SnackBar(
+                          //                       content: Text('Upload failed')),
+                          //                 );
+                          //               });
+                          //             } else {
+                          //               // User canceled the picker
+                          //             }
+                          //           },
+                          //           child: Icon(Icons.add),
+                          //           backgroundColor: const Color(0xFFF4A223),
+                          //         ),
+                          //       ),
+                          //     ),
+                          //   ],
+                          // ),
+                          UploadedDocumentsManager(
+                            user: widget.user,
+                            uploadedDocuments: uploadedDocuments,
+                            onUploadComplete: (Map<String, dynamic> doc) {
+                              setState(() {
+                                uploadedDocuments.add(doc);
+                              });
+                            },
+                            onDocumentDeleted: (int index) {
+                              setState(() {
+                                uploadedDocuments.removeAt(index);
+                              });
+                            },
+                          ),
                           Center(child: Text('Medication Content')),
                         ],
                       ),
@@ -166,6 +260,105 @@ class _DoctorsPageState extends State<DoctorsPage>
           ],
         ),
       ),
+    );
+  }
+}
+
+class UploadedDocumentsManager extends StatefulWidget {
+  final User user;
+  final List<Map<String, dynamic>> uploadedDocuments;
+  final Function(Map<String, dynamic>) onUploadComplete;
+  final Function(int) onDocumentDeleted;
+
+  const UploadedDocumentsManager({
+    Key? key,
+    required this.user,
+    required this.uploadedDocuments,
+    required this.onUploadComplete,
+    required this.onDocumentDeleted,
+  }) : super(key: key);
+
+  @override
+  State<UploadedDocumentsManager> createState() =>
+      _UploadedDocumentsManagerState();
+}
+
+class _UploadedDocumentsManagerState extends State<UploadedDocumentsManager> {
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        if (widget.uploadedDocuments.isEmpty)
+          Center(child: Text('Upload Documents')),
+        if (widget.uploadedDocuments.isNotEmpty)
+          ListView.builder(
+            itemCount: widget.uploadedDocuments.length,
+            itemBuilder: (context, index) {
+              var document = widget.uploadedDocuments[index];
+              return ListTile(
+                title: Text(path.basename(document['name'])),
+                subtitle: Text('Tap to view or edit'),
+                trailing: IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () => widget.onDocumentDeleted(index),
+                ),
+                onTap: () {
+                  // Implement viewing functionality
+                },
+              );
+            },
+          ),
+        Positioned(
+          top: 0,
+          right: 0,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: FloatingActionButton(
+              onPressed: () async {
+                // Implement the file picking and upload functionality here
+                // After a successful upload, call onUploadComplete with the document info
+                FilePickerResult? result = await FilePicker.platform.pickFiles(
+                  type: FileType.custom,
+                  allowedExtensions: ['jpg', 'jpeg', 'png'],
+                );
+                if (result != null) {
+                  PlatformFile file = result.files.first;
+
+                  // Create a storage reference
+                  FirebaseStorage storage = FirebaseStorage.instance;
+                  Reference ref = storage.ref().child('uploads/${file.name}');
+                  UploadTask uploadTask = ref.putFile(File(file.path!));
+
+                  // Start the upload task
+                  uploadTask.then((res) async {
+                    final url = await res.ref.getDownloadURL();
+                    // Here you can store the URL to Firestore or another service
+                    FirebaseFirestore.instance
+                        .collection('users/${widget.user.uid}/documents')
+                        .add({
+                      'url': url,
+                      'name': file.name,
+                      'uploaded_at': FieldValue.serverTimestamp(),
+                    });
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Upload complete')),
+                    );
+                  }).catchError((e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Upload failed')),
+                    );
+                  });
+                } else {
+                  // User canceled the picker
+                }
+              },
+              child: Icon(Icons.add),
+              backgroundColor: const Color(0xFFF4A223),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
