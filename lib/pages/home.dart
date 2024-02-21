@@ -52,6 +52,9 @@ class _HomeState extends State<Home> {
           var photoUrl = userData['photoURL'];
           var displayName = userData["displayName"];
           var currentDate = DateTime.now();
+          DateTime lastPeriodLog =
+              (userData["periodLastLog"] as Timestamp).toDate();
+          var difference = currentDate.difference(lastPeriodLog).inDays;
           var januaryFirstIndex =
               currentDate.difference(DateTime(currentDate.year, 1, 1)).inDays;
           print(januaryFirstIndex);
@@ -356,7 +359,7 @@ class _HomeState extends State<Home> {
                                               padding: EdgeInsets.only(
                                                   top: height(context, 5.0)),
                                               child: Text(
-                                                "5 Days",
+                                                difference.toString(),
                                                 style: GoogleFonts.poppins(
                                                   fontSize: width(context, 36),
                                                   fontWeight: FontWeight.w500,
