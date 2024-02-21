@@ -75,6 +75,7 @@ class _DoctorsPageState extends State<DoctorsPage>
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             // Scrollable doctors section
             Container(
