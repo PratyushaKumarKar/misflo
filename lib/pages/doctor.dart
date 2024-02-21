@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:misflo/utils/screentools.dart';
 
 class DoctorsPage extends StatefulWidget {
   const DoctorsPage({super.key});
@@ -11,6 +12,19 @@ class _DoctorsPageState extends State<DoctorsPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
+  List<Map<String, String>> doctors = [
+    {
+      'clinicName': 'Healthline Clinic',
+      'doctorName': 'Arundhati Roy',
+      'imageUrl': 'assets/doctor1.png',
+    },
+    {
+      'clinicName': 'Healthline Clinic',
+      'doctorName': 'Samruddhi Kar',
+      'imageUrl': 'assets/doctor2.png',
+    },
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -21,6 +35,28 @@ class _DoctorsPageState extends State<DoctorsPage>
   void dispose() {
     _tabController.dispose();
     super.dispose();
+  }
+// ==========================Add a doctor functionality
+
+  void addDoctor() {
+    // Placeholder for add doctor functionality
+    // Update this function to add a new doctor to the list and refresh the UI
+    setState(() {
+      doctors.add({
+        'clinicName': 'New Clinic',
+        'doctorName': 'New Doctor',
+        'imageUrl':
+            'assets/new_doctor.png', // Replace with actual image path for new doctors
+      });
+    });
+  }
+
+// ===========================Delete a doctor
+  void deleteDoctor(int index) {
+    // Remove doctor from list and refresh UI
+    setState(() {
+      doctors.removeAt(index);
+    });
   }
 
   @override
@@ -41,22 +77,16 @@ class _DoctorsPageState extends State<DoctorsPage>
           Expanded(
             flex:
                 1, // Adjust the flex factor to control the height of the doctor cards list relative to the tabs section
-            child: ListView(
-              children: [
-                DoctorCard(
-                  clinicName: 'Healthline Clinic',
-                  doctorName: 'Arundhati Roy',
-                  imageUrl:
-                      'assets/doctor1.png', // Replace with actual image path
-                ),
-                DoctorCard(
-                  clinicName: 'Healthline Clinic',
-                  doctorName: 'Samruddhi Kar',
-                  imageUrl:
-                      'assets/doctor2.png', // Replace with actual image path
-                ),
-                // Add more DoctorCards if needed
-              ],
+            child: ListView.builder(
+              itemCount: doctors.length,
+              itemBuilder: (context, index) {
+                return DoctorCard(
+                  clinicName: doctors[index]['clinicName']!,
+                  doctorName: doctors[index]['doctorName']!,
+                  imageUrl: doctors[index]['imageUrl']!,
+                  onDelete: () => deleteDoctor(index),
+                );
+              },
             ),
           ),
           // Fixed tabs section
@@ -103,6 +133,7 @@ class _DoctorsPageState extends State<DoctorsPage>
               ),
             ),
           ),
+          //Old Float action button here
         ],
       ),
     );
@@ -113,12 +144,14 @@ class DoctorCard extends StatelessWidget {
   final String clinicName;
   final String doctorName;
   final String imageUrl;
+  final VoidCallback onDelete;
 
   const DoctorCard({
     Key? key,
     required this.clinicName,
     required this.doctorName,
     required this.imageUrl,
+    required this.onDelete,
   }) : super(key: key);
 
   @override

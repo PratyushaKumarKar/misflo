@@ -112,8 +112,8 @@ class _NavigationPageState extends State<NavigationPage> {
   @override
   Widget build(BuildContext context) {
     List<Widget> Pages = [
-      Diet(user: widget.user),
-      const Text("Caender"),
+      Text("Diet"),
+      const Text("Claender"),
       Home(user: widget.user),
       Text("Exercise"),
       Text("Communiuty")
