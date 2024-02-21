@@ -46,6 +46,7 @@ dependencies:
   file_picker: ^5.0.1
   firebase_storage: ^11.6.3
   path: ^1.8.3
+  photo_view: ^0.14.0
 
 dev_dependencies:
   flutter_test:

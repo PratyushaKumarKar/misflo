@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 import 'package:path/path.dart' as path;
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -45,7 +46,7 @@ class _DoctorsPageState extends State<DoctorsPage>
     _tabController.dispose();
     super.dispose();
   }
-// ==========================Add a doctor functionality
+// ==========================Add a doctor functionality==================
 
   void addDoctor() {
     // Placeholder for add doctor functionality
@@ -60,7 +61,7 @@ class _DoctorsPageState extends State<DoctorsPage>
     });
   }
 
-// ===========================Delete a doctor
+// ===========================Delete a doctor==================
   void deleteDoctor(int index) {
     // Remove doctor from list and refresh UI
     setState(() {
@@ -161,78 +162,7 @@ class _DoctorsPageState extends State<DoctorsPage>
                         children: [
                           // Replace with actual content
                           Center(child: Text('Appointments Content')),
-                          // Stack(
-                          //   children: [
-                          //     // Your history content here
-                          //     Center(child: Text('Upload Documents')),
-                          //     Positioned(
-                          //       top: 0,
-                          //       right: 0,
-                          //       child: Padding(
-                          //         padding: const EdgeInsets.all(8.0),
-                          //         child: FloatingActionButton(
-                          //           onPressed: () async {
-                          //             //  UploadDocumentButton(user: widget.user);
-                          //             FilePickerResult? result =
-                          //                 await FilePicker.platform.pickFiles(
-                          //               type: FileType.custom,
-                          //               allowedExtensions: [
-                          //                 'jpg',
-                          //                 'jpeg',
-                          //                 'png'
-                          //               ],
-                          //             );
-                          //             if (result != null) {
-                          //               PlatformFile file = result.files.first;
-
-                          //               // Create a storage reference
-                          //               FirebaseStorage storage =
-                          //                   FirebaseStorage.instance;
-                          //               Reference ref = storage
-                          //                   .ref()
-                          //                   .child('uploads/${file.name}');
-                          //               UploadTask uploadTask =
-                          //                   ref.putFile(File(file.path!));
-
-                          //               // Start the upload task
-                          //               uploadTask.then((res) async {
-                          //                 final url =
-                          //                     await res.ref.getDownloadURL();
-                          //                 // Here you can store the URL to Firestore or another service
-                          //                 FirebaseFirestore.instance
-                          //                     .collection(
-                          //                         'users/${widget.user.uid}/documents')
-                          //                     .add({
-                          //                   'url': url,
-                          //                   'name': file.name,
-                          //                   'uploaded_at':
-                          //                       FieldValue.serverTimestamp(),
-                          //                 });
-
-                          //                 ScaffoldMessenger.of(context)
-                          //                     .showSnackBar(
-                          //                   const SnackBar(
-                          //                       content:
-                          //                           Text('Upload complete')),
-                          //                 );
-                          //               }).catchError((e) {
-                          //                 ScaffoldMessenger.of(context)
-                          //                     .showSnackBar(
-                          //                   const SnackBar(
-                          //                       content: Text('Upload failed')),
-                          //                 );
-                          //               });
-                          //             } else {
-                          //               // User canceled the picker
-                          //             }
-                          //           },
-                          //           child: Icon(Icons.add),
-                          //           backgroundColor: const Color(0xFFF4A223),
-                          //         ),
-                          //       ),
-                          //     ),
-                          //   ],
-                          // ),
+                          // =================== File Upload / Delete Widget =======
                           UploadedDocumentsManager(
                             user: widget.user,
                             onUploadComplete: (Map<String, dynamic> doc) {
@@ -240,21 +170,7 @@ class _DoctorsPageState extends State<DoctorsPage>
                                 // uploadedDocuments.add(doc);
                               });
                             },
-                            onDocumentDeleted: (int index) {
-                              // if (index >= 0 &&
-                              //     index < uploadedDocuments.length) {
-                              //   setState(() {
-                              //     var documentId =
-                              //         uploadedDocuments[index]['id'];
-                              //     print(documentId);
-                              //     FirebaseFirestore.instance
-                              //         .collection(
-                              //             'users/${widget.user.uid}/documents')
-                              //         .doc(documentId)
-                              //         .delete();
-                              //   });
-                              // }
-                            },
+                            onDocumentDeleted: (int index) {},
                           ),
                           Center(child: Text('Medication Content')),
                         ],
@@ -325,7 +241,7 @@ class _UploadedDocumentsManagerState extends State<UploadedDocumentsManager> {
                   var document = uploadedDocuments[index];
                   return ListTile(
                     title: Text(path.basename(document['name'])),
-                    subtitle: Text('Tap to view or edit'),
+                    subtitle: Text('Tap to view'),
                     trailing: IconButton(
                       icon: Icon(Icons.delete),
                       onPressed: () {
@@ -341,6 +257,9 @@ class _UploadedDocumentsManagerState extends State<UploadedDocumentsManager> {
                     ),
                     onTap: () {
                       // Implement viewing functionality
+                      if (document['url'] != null) {
+                        viewImage(context, document['url']);
+                      }
                     },
                   );
                 },
@@ -389,9 +308,6 @@ class _UploadedDocumentsManagerState extends State<UploadedDocumentsManager> {
                     } else {
                       // User canceled the picker
                     }
-
-                    // Implement the file picking and upload functionality here
-                    // After a successful upload, call onUploadComplete with the document info
                   },
                   child: Icon(Icons.add),
                   backgroundColor: const Color(0xFFF4A223),
@@ -403,6 +319,42 @@ class _UploadedDocumentsManagerState extends State<UploadedDocumentsManager> {
       },
     );
   }
+}
+
+void viewImage(BuildContext context, String url) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return Dialog(
+        backgroundColor:
+            Colors.transparent, // Make dialog background transparent
+        child: ClipRRect(
+          // Clip to ensure the blur only applies to the bounds of the modal
+          borderRadius: BorderRadius.circular(
+              10), // Optional: Apply border radius to the modal
+          child: BackdropFilter(
+            filter:
+                ImageFilter.blur(sigmaX: 10, sigmaY: 10), // Apply blur filter
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(
+                    0.8), // Optional: Apply white color with opacity for better effect
+                borderRadius: BorderRadius.circular(
+                    10), // Match border radius with ClipRRect
+              ),
+              child: InteractiveViewer(
+                panEnabled: false, // Set to false to prevent panning.
+                boundaryMargin: EdgeInsets.all(20),
+                minScale: 0.5,
+                maxScale: 4,
+                child: Image.network(url),
+              ),
+            ),
+          ),
+        ),
+      );
+    },
+  );
 }
 
 class DoctorCard extends StatelessWidget {
