@@ -411,7 +411,7 @@ class _HomeState extends State<Home> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          const DoctorsPage()));
+                                          DoctorsPage(user: widget.user)));
                             },
                           ),
                         ],
