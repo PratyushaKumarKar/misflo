@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:misflo/pages/doctor.dart';
+import 'package:misflo/pages/misboo.dart';
 import 'package:misflo/utils/screentools.dart';
 import 'package:intl/intl.dart' show DateFormat, toBeginningOfSentenceCase;
 
@@ -38,7 +39,7 @@ class _HomeState extends State<Home> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             // Return a loading indicator or placeholder
-            return const CircularProgressIndicator();
+            return Center(child: const CircularProgressIndicator());
           }
 
           if (snapshot.hasError) {
@@ -335,7 +336,7 @@ class _HomeState extends State<Home> {
                                       padding: const EdgeInsets.all(5.0),
                                       child: Container(
                                         height: height(context, 257.54),
-                                        width: width(context, 282.56),
+                                        width: width(context, 260.56),
                                         decoration: BoxDecoration(
                                           shape: BoxShape.circle,
                                           color: Color(0xFF211F1F),
@@ -422,6 +423,23 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                 ),
+                Positioned(
+                    right: width(context, 12),
+                    top: height(context, 700),
+                    child: InkWell(
+                      splashColor: Colors.transparent,
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const SectionChat()));
+                      },
+                      child: Image.asset(
+                        "assets/misboo.png",
+                        height: height(context, 95),
+                        width: width(context, 95),
+                      ),
+                    ))
               ],
             ),
           );
