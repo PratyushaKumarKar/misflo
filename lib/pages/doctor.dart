@@ -33,7 +33,6 @@ class _DoctorsPageState extends State<DoctorsPage>
   ];
 
   // List to hold uploaded documents
-  List<Map<String, dynamic>> uploadedDocuments = [];
 
   @override
   void initState() {
@@ -236,16 +235,25 @@ class _DoctorsPageState extends State<DoctorsPage>
                           // ),
                           UploadedDocumentsManager(
                             user: widget.user,
-                            uploadedDocuments: uploadedDocuments,
                             onUploadComplete: (Map<String, dynamic> doc) {
                               setState(() {
-                                uploadedDocuments.add(doc);
+                                // uploadedDocuments.add(doc);
                               });
                             },
                             onDocumentDeleted: (int index) {
-                              setState(() {
-                                uploadedDocuments.removeAt(index);
-                              });
+                              // if (index >= 0 &&
+                              //     index < uploadedDocuments.length) {
+                              //   setState(() {
+                              //     var documentId =
+                              //         uploadedDocuments[index]['id'];
+                              //     print(documentId);
+                              //     FirebaseFirestore.instance
+                              //         .collection(
+                              //             'users/${widget.user.uid}/documents')
+                              //         .doc(documentId)
+                              //         .delete();
+                              //   });
+                              // }
                             },
                           ),
                           Center(child: Text('Medication Content')),
@@ -266,14 +274,12 @@ class _DoctorsPageState extends State<DoctorsPage>
 
 class UploadedDocumentsManager extends StatefulWidget {
   final User user;
-  final List<Map<String, dynamic>> uploadedDocuments;
   final Function(Map<String, dynamic>) onUploadComplete;
   final Function(int) onDocumentDeleted;
 
   const UploadedDocumentsManager({
     Key? key,
     required this.user,
-    required this.uploadedDocuments,
     required this.onUploadComplete,
     required this.onDocumentDeleted,
   }) : super(key: key);
@@ -286,79 +292,115 @@ class UploadedDocumentsManager extends StatefulWidget {
 class _UploadedDocumentsManagerState extends State<UploadedDocumentsManager> {
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        if (widget.uploadedDocuments.isEmpty)
-          Center(child: Text('Upload Documents')),
-        if (widget.uploadedDocuments.isNotEmpty)
-          ListView.builder(
-            itemCount: widget.uploadedDocuments.length,
-            itemBuilder: (context, index) {
-              var document = widget.uploadedDocuments[index];
-              return ListTile(
-                title: Text(path.basename(document['name'])),
-                subtitle: Text('Tap to view or edit'),
-                trailing: IconButton(
-                  icon: Icon(Icons.delete),
-                  onPressed: () => widget.onDocumentDeleted(index),
-                ),
-                onTap: () {
-                  // Implement viewing functionality
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance
+          .collection('users/${widget.user.uid}/documents')
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        }
+
+        List<Map<String, dynamic>> uploadedDocuments = snapshot.data!.docs
+            .map((doc) => {
+                  'id': doc.id,
+                  'url': doc['url'],
+                  'name': doc['name'],
+                  'uploaded_at': doc['uploaded_at'],
+                })
+            .toList();
+
+        return Stack(
+          children: [
+            if (uploadedDocuments.isEmpty)
+              Center(child: Text('Upload Documents')),
+            if (uploadedDocuments.isNotEmpty)
+              ListView.builder(
+                itemCount: uploadedDocuments.length,
+                itemBuilder: (context, index) {
+                  var document = uploadedDocuments[index];
+                  return ListTile(
+                    title: Text(path.basename(document['name'])),
+                    subtitle: Text('Tap to view or edit'),
+                    trailing: IconButton(
+                      icon: Icon(Icons.delete),
+                      onPressed: () {
+                        setState(() {
+                          var documentId = uploadedDocuments[index]['id'];
+                          print(documentId);
+                          FirebaseFirestore.instance
+                              .collection('users/${widget.user.uid}/documents')
+                              .doc(documentId)
+                              .delete();
+                        });
+                      },
+                    ),
+                    onTap: () {
+                      // Implement viewing functionality
+                    },
+                  );
                 },
-              );
-            },
-          ),
-        Positioned(
-          top: 0,
-          right: 0,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: FloatingActionButton(
-              onPressed: () async {
-                // Implement the file picking and upload functionality here
-                // After a successful upload, call onUploadComplete with the document info
-                FilePickerResult? result = await FilePicker.platform.pickFiles(
-                  type: FileType.custom,
-                  allowedExtensions: ['jpg', 'jpeg', 'png'],
-                );
-                if (result != null) {
-                  PlatformFile file = result.files.first;
-
-                  // Create a storage reference
-                  FirebaseStorage storage = FirebaseStorage.instance;
-                  Reference ref = storage.ref().child('uploads/${file.name}');
-                  UploadTask uploadTask = ref.putFile(File(file.path!));
-
-                  // Start the upload task
-                  uploadTask.then((res) async {
-                    final url = await res.ref.getDownloadURL();
-                    // Here you can store the URL to Firestore or another service
-                    FirebaseFirestore.instance
-                        .collection('users/${widget.user.uid}/documents')
-                        .add({
-                      'url': url,
-                      'name': file.name,
-                      'uploaded_at': FieldValue.serverTimestamp(),
-                    });
-
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Upload complete')),
+              ),
+            Positioned(
+              bottom: 5,
+              right: 0,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: FloatingActionButton(
+                  onPressed: () async {
+                    FilePickerResult? result =
+                        await FilePicker.platform.pickFiles(
+                      type: FileType.custom,
+                      allowedExtensions: ['jpg', 'jpeg', 'png'],
                     );
-                  }).catchError((e) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Upload failed')),
-                    );
-                  });
-                } else {
-                  // User canceled the picker
-                }
-              },
-              child: Icon(Icons.add),
-              backgroundColor: const Color(0xFFF4A223),
+                    if (result != null) {
+                      PlatformFile file = result.files.first;
+
+                      // Create a storage reference
+                      FirebaseStorage storage = FirebaseStorage.instance;
+                      Reference ref =
+                          storage.ref().child('uploads/${file.name}');
+                      UploadTask uploadTask = ref.putFile(File(file.path!));
+
+                      // Start the upload task
+                      uploadTask.then((res) async {
+                        final url = await res.ref.getDownloadURL();
+                        // Here you can store the URL to Firestore or another service
+                        FirebaseFirestore.instance
+                            .collection('users/${widget.user.uid}/documents')
+                            .add({
+                          'url': url,
+                          'name': file.name,
+                          'uploaded_at': FieldValue.serverTimestamp(),
+                        });
+
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Upload complete')),
+                        );
+                      }).catchError((e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Upload failed')),
+                        );
+                      });
+                    } else {
+                      // User canceled the picker
+                    }
+
+                    // Implement the file picking and upload functionality here
+                    // After a successful upload, call onUploadComplete with the document info
+                  },
+                  child: Icon(Icons.add),
+                  backgroundColor: const Color(0xFFF4A223),
+                ),
+              ),
             ),
-          ),
-        ),
-      ],
+          ],
+        );
+      },
     );
   }
 }
