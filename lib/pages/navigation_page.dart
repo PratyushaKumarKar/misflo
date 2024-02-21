@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:misflo/pages/home.dart';
 import 'package:misflo/utils/screentools.dart';
+import 'package:misflo/pages/diet.dart';
 import 'dart:ui' as ui;
 
 //Copy this CustomPainter code to the Bottom of the File
@@ -111,8 +112,8 @@ class _NavigationPageState extends State<NavigationPage> {
   @override
   Widget build(BuildContext context) {
     List<Widget> Pages = [
-      Text("Diet"),
-      const Text("Claender"),
+      Diet(user: widget.user),
+      const Text("Caender"),
       Home(user: widget.user),
       Text("Exercise"),
       Text("Communiuty")
