@@ -1,9 +1,8 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:misflo/pages/doctor.dart';
 import 'package:misflo/utils/screentools.dart';
 import 'package:intl/intl.dart' show DateFormat, toBeginningOfSentenceCase;
 
@@ -39,7 +38,7 @@ class _HomeState extends State<Home> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             // Return a loading indicator or placeholder
-            return CircularProgressIndicator();
+            return const CircularProgressIndicator();
           }
 
           if (snapshot.hasError) {
@@ -385,9 +384,42 @@ class _HomeState extends State<Home> {
                 Positioned(
                   right: width(context, 14),
                   top: height(context, 18),
-                  child: CircleAvatar(
-                    radius: height(context, 27),
-                    backgroundImage: NetworkImage(photoUrl),
+                  child: GestureDetector(
+                    onTapDown: (details) {
+                      // Show a blur effect
+
+                      showMenu(
+                        context: context,
+                        position: RelativeRect.fromLTRB(
+                          details.globalPosition.dx,
+                          details.globalPosition.dy,
+                          details.globalPosition.dx,
+                          details.globalPosition.dy,
+                        ),
+                        items: [
+                          PopupMenuItem(
+                            child: Text('Log Out'),
+                            onTap: () {
+                              // Handle option 1 tap
+                            },
+                          ),
+                          PopupMenuItem(
+                            child: Text('My Doctors'),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const DoctorsPage()));
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                    child: CircleAvatar(
+                      radius: height(context, 27),
+                      backgroundImage: NetworkImage(photoUrl),
+                    ),
                   ),
                 ),
               ],
