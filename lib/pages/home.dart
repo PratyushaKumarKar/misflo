@@ -359,7 +359,8 @@ class _HomeState extends State<Home> {
                                               padding: EdgeInsets.only(
                                                   top: height(context, 5.0)),
                                               child: Text(
-                                                difference.toString(),
+                                                difference.toString() +
+                                                    " Days ",
                                                 style: GoogleFonts.poppins(
                                                   fontSize: width(context, 36),
                                                   fontWeight: FontWeight.w500,
