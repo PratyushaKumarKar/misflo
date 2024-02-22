@@ -3,6 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:misflo/pages/doctor.dart';
+import 'package:misflo/pages/login.dart';
+import 'package:misflo/pages/misboo.dart';
+import 'package:misflo/pages/navigation_page.dart';
 import 'package:misflo/utils/screentools.dart';
 import 'package:intl/intl.dart' show DateFormat, toBeginningOfSentenceCase;
 
@@ -30,15 +33,15 @@ class _HomeState extends State<Home> {
     var screenheight = MediaQuery.of(context).size.height * 3;
     return Scaffold(
       backgroundColor: Colors.white,
-      body: FutureBuilder<DocumentSnapshot>(
-        future: FirebaseFirestore.instance
+      body: StreamBuilder<DocumentSnapshot>(
+        stream: FirebaseFirestore.instance
             .collection('users')
             .doc(widget.user.uid)
-            .get(),
+            .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             // Return a loading indicator or placeholder
-            return const CircularProgressIndicator();
+            return Center(child: const CircularProgressIndicator());
           }
 
           if (snapshot.hasError) {
@@ -50,9 +53,13 @@ class _HomeState extends State<Home> {
           var userData = snapshot.data!.data() as Map<String, dynamic>;
           var photoUrl = userData['photoURL'];
           var displayName = userData["displayName"];
+          bool firstTimeWidgetUser =
+              snapshot.data!['firstTimeWidgetUser'] ?? true;
+          bool onPeriod = snapshot.data!['onPeriod'] ?? true;
           var currentDate = DateTime.now();
           DateTime lastPeriodLog =
-              (userData["periodLastLog"] as Timestamp).toDate();
+              (snapshot.data!['periodLastLog'] as Timestamp).toDate() ??
+                  DateTime.now();
           var difference = currentDate.difference(lastPeriodLog).inDays;
           var januaryFirstIndex =
               currentDate.difference(DateTime(currentDate.year, 1, 1)).inDays;
@@ -323,7 +330,7 @@ class _HomeState extends State<Home> {
                                           left: width(context, 8),
                                           right: width(context, 8),
                                         ),
-                                        child: Text(DateFormat('dd,MMMM')
+                                        child: Text(DateFormat('dd MMMM')
                                             .format(currentDate)),
                                       ),
                                     ),
@@ -333,41 +340,128 @@ class _HomeState extends State<Home> {
                                     left: width(context, 67.68),
                                     child: Padding(
                                       padding: const EdgeInsets.all(5.0),
-                                      child: Container(
-                                        height: height(context, 257.54),
-                                        width: width(context, 282.56),
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: Color(0xFF211F1F),
-                                        ),
-                                        child: Column(
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  top: height(context, 49.0)),
-                                              child: Text(
-                                                "Periods in",
-                                                style: GoogleFonts.poppins(
-                                                  fontSize: width(context, 16),
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  top: height(context, 5.0)),
-                                              child: Text(
-                                                difference.toString() +
-                                                    " Days ",
-                                                style: GoogleFonts.poppins(
-                                                  fontSize: width(context, 36),
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
+                                      child: InkWell(
+                                        highlightColor: Colors.white,
+                                        splashColor: Colors.white,
+                                        onLongPress: () async {
+                                          try {
+                                            await FirebaseFirestore.instance
+                                                .collection('users')
+                                                .doc(widget.user
+                                                    .uid) // Assuming you have the user's UID
+                                                .update({
+                                              'firstTimeWidgetUser': false,
+                                              "onPeriod": !onPeriod,
+                                              "periodLastLog": DateTime.now(),
+                                            });
+
+                                            print("Update successful");
+                                          } catch (e) {
+                                            print(
+                                                "Error updating firstTimeWidgetUser: $e");
+                                          }
+                                        },
+                                        child: Container(
+                                          height: height(context, 257.54),
+                                          width: width(context, 260.56),
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Color(0xFF211F1F),
+                                          ),
+                                          child: Column(
+                                            children: firstTimeWidgetUser ==
+                                                    true
+                                                ? [
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          top: height(
+                                                              context, 49.0)),
+                                                      child: Text(
+                                                        "Hold to",
+                                                        style:
+                                                            GoogleFonts.poppins(
+                                                          fontSize: width(
+                                                              context, 36),
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color: Colors.white,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          top: height(
+                                                              context, 5.0)),
+                                                      child: Text(
+                                                        "Start/Stop Cycle",
+                                                        style:
+                                                            GoogleFonts.poppins(
+                                                          fontSize: width(
+                                                              context, 16),
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color: Colors.white,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ]
+                                                : [
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          top: height(
+                                                              context, 49.0)),
+                                                      child: onPeriod == true
+                                                          ? Text(
+                                                              "Periods Started",
+                                                              style: GoogleFonts
+                                                                  .poppins(
+                                                                fontSize: width(
+                                                                    context,
+                                                                    16),
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
+                                                            )
+                                                          : Text(
+                                                              "Periods Ended",
+                                                              style: GoogleFonts
+                                                                  .poppins(
+                                                                fontSize: width(
+                                                                    context,
+                                                                    16),
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
+                                                            ),
+                                                    ),
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          top: height(
+                                                              context, 5.0)),
+                                                      child: Text(
+                                                        (difference == 0)
+                                                            ? "Today"
+                                                            : difference
+                                                                    .toString() +
+                                                                " Days ",
+                                                        style:
+                                                            GoogleFonts.poppins(
+                                                          fontSize: width(
+                                                              context, 36),
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color: Colors.white,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -399,8 +493,14 @@ class _HomeState extends State<Home> {
                         items: [
                           PopupMenuItem(
                             child: Text('Log Out'),
-                            onTap: () {
-                              // Handle option 1 tap
+                            onTap: () async {
+                              await FirebaseAuth.instance.signOut();
+
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Login()),
+                              );
                             },
                           ),
                           PopupMenuItem(
@@ -410,7 +510,7 @@ class _HomeState extends State<Home> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          const DoctorsPage()));
+                                          DoctorsPage(user: widget.user)));
                             },
                           ),
                         ],
@@ -422,6 +522,25 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                 ),
+                Positioned(
+                    right: width(context, 12),
+                    top: height(context, 700),
+                    child: InkWell(
+                      splashColor: Colors.transparent,
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SectionChat(
+                                      user: widget.user,
+                                    )));
+                      },
+                      child: Image.asset(
+                        "assets/misboo.png",
+                        height: height(context, 95),
+                        width: width(context, 95),
+                      ),
+                    ))
               ],
             ),
           );
