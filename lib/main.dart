@@ -29,7 +29,7 @@ Future<void> main() async {
             threshold: SafetyThreshold.blockNone)
       ],
       generationConfig: GenerationConfig(
-          temperature: 0.4, topK: 32, topP: 1, maxOutputTokens: 2048));
+          temperature: 0.9, topK: 32, topP: 1, maxOutputTokens: 2048));
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

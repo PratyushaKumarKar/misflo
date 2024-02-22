@@ -299,6 +299,7 @@ Future<void> _updateUserData(User user) async {
     'displayName': user.displayName,
     'email': user.email,
     'photoURL': user.photoURL,
+    'periodLastLog': DateTime.now(),
   });
 }
 
