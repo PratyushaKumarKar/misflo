@@ -1,9 +1,9 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:misflo/pages/doctor.dart';
+import 'package:misflo/pages/misboo.dart';
 import 'package:misflo/utils/screentools.dart';
 import 'package:intl/intl.dart' show DateFormat, toBeginningOfSentenceCase;
 
@@ -39,7 +39,7 @@ class _HomeState extends State<Home> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             // Return a loading indicator or placeholder
-            return CircularProgressIndicator();
+            return Center(child: const CircularProgressIndicator());
           }
 
           if (snapshot.hasError) {
@@ -52,6 +52,9 @@ class _HomeState extends State<Home> {
           var photoUrl = userData['photoURL'];
           var displayName = userData["displayName"];
           var currentDate = DateTime.now();
+          DateTime lastPeriodLog =
+              (userData["periodLastLog"] as Timestamp).toDate();
+          var difference = currentDate.difference(lastPeriodLog).inDays;
           var januaryFirstIndex =
               currentDate.difference(DateTime(currentDate.year, 1, 1)).inDays;
           print(januaryFirstIndex);
@@ -67,7 +70,7 @@ class _HomeState extends State<Home> {
             _scrollController.animateTo(
               currentIndex * width(context, 90.2),
               duration: Duration(milliseconds: 200),
-              curve: Curves.bounceInOut,
+              curve: Curves.linear,
             );
           });
           return SafeArea(
@@ -233,6 +236,148 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                         ),
+                        Positioned(
+                          top: height(context, 320),
+                          left: width(context, 7),
+                          child: Container(
+                            width: width(context, 416),
+                            height: height(context, 316),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(33),
+                              child: Stack(
+                                clipBehavior: Clip.hardEdge,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 5.0, left: 2, right: 2),
+                                    child: Container(
+                                      width: width(context, 416),
+                                      height: height(context, 316),
+                                      decoration: BoxDecoration(
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color:
+                                                Colors.black.withOpacity(0.25),
+                                            spreadRadius: 0,
+                                            blurRadius: 4.9,
+                                            offset: Offset(0, -3),
+                                          ),
+                                        ],
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(33),
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top: height(context, 55.5),
+                                    left: -width(context, 8),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: Container(
+                                        height: height(context, 417.25),
+                                        width: width(context, 416),
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Colors.white,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color:
+                                                  Colors.grey.withOpacity(0.5),
+                                              spreadRadius: 0,
+                                              blurRadius: 4.9,
+                                              offset: Offset(-2, -4),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top: height(context, 105),
+                                    left: width(context, 30),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: Container(
+                                        height: height(context, 332.25),
+                                        width: width(context, 338),
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Color(0xFFC1A0EC),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top: height(context, 24),
+                                    left: width(context, 24),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Color(0xFFC1A0EC)),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(13)),
+                                      ),
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                          top: height(context, 2),
+                                          bottom: height(context, 2),
+                                          left: width(context, 8),
+                                          right: width(context, 8),
+                                        ),
+                                        child: Text(DateFormat('dd,MMMM')
+                                            .format(currentDate)),
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top: height(context, 142.57),
+                                    left: width(context, 67.68),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: Container(
+                                        height: height(context, 257.54),
+                                        width: width(context, 260.56),
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Color(0xFF211F1F),
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  top: height(context, 49.0)),
+                                              child: Text(
+                                                "Periods in",
+                                                style: GoogleFonts.poppins(
+                                                  fontSize: width(context, 16),
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  top: height(context, 5.0)),
+                                              child: Text(
+                                                difference.toString() +
+                                                    " Days ",
+                                                style: GoogleFonts.poppins(
+                                                  fontSize: width(context, 36),
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -240,11 +385,63 @@ class _HomeState extends State<Home> {
                 Positioned(
                   right: width(context, 14),
                   top: height(context, 18),
-                  child: CircleAvatar(
-                    radius: height(context, 27),
-                    backgroundImage: NetworkImage(photoUrl),
+                  child: GestureDetector(
+                    onTapDown: (details) {
+                      // Show a blur effect
+
+                      showMenu(
+                        context: context,
+                        position: RelativeRect.fromLTRB(
+                          details.globalPosition.dx,
+                          details.globalPosition.dy,
+                          details.globalPosition.dx,
+                          details.globalPosition.dy,
+                        ),
+                        items: [
+                          PopupMenuItem(
+                            child: Text('Log Out'),
+                            onTap: () {
+                              // Handle option 1 tap
+                            },
+                          ),
+                          PopupMenuItem(
+                            child: Text('My Doctors'),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          DoctorsPage(user: widget.user)));
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                    child: CircleAvatar(
+                      radius: height(context, 27),
+                      backgroundImage: NetworkImage(photoUrl),
+                    ),
                   ),
                 ),
+                Positioned(
+                    right: width(context, 12),
+                    top: height(context, 700),
+                    child: InkWell(
+                      splashColor: Colors.transparent,
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SectionChat(
+                                      user: widget.user,
+                                    )));
+                      },
+                      child: Image.asset(
+                        "assets/misboo.png",
+                        height: height(context, 95),
+                        width: width(context, 95),
+                      ),
+                    ))
               ],
             ),
           );
