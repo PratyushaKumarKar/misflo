@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:ui';
+import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
-import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -89,38 +89,34 @@ class _DoctorsPageState extends State<DoctorsPage>
             // Scrollable doctors section
             Container(
               height: height(context, 400),
-              child: Expanded(
-                flex:
-                    1, // Adjust the flex factor to control the height of the doctor cards list relative to the tabs section
-                child: Container(
-                  decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.25),
-                          spreadRadius: -3,
-                          blurRadius: 10.3,
-                          offset:
-                              const Offset(1, -5), // changes position of shadow
-                        ),
-                      ],
-                      borderRadius:
-                          BorderRadius.all(Radius.circular(width(context, 35))),
-                      color: Colors.white),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ListView.builder(
-                      itemCount: doctors.length,
-                      itemBuilder: (context, index) {
-                        return DoctorCard(
-                          index: index,
-                          length: doctors.length,
-                          clinicName: doctors[index]['clinicName']!,
-                          doctorName: doctors[index]['doctorName']!,
-                          imageUrl: doctors[index]['imageUrl']!,
-                          onDelete: () => deleteDoctor(index),
-                        );
-                      },
-                    ),
+              child: Container(
+                decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.25),
+                        spreadRadius: -3,
+                        blurRadius: 10.3,
+                        offset:
+                            const Offset(1, -5), // changes position of shadow
+                      ),
+                    ],
+                    borderRadius:
+                        BorderRadius.all(Radius.circular(width(context, 35))),
+                    color: Colors.white),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListView.builder(
+                    itemCount: doctors.length,
+                    itemBuilder: (context, index) {
+                      return DoctorCard(
+                        index: index,
+                        length: doctors.length,
+                        clinicName: doctors[index]['clinicName']!,
+                        doctorName: doctors[index]['doctorName']!,
+                        imageUrl: doctors[index]['imageUrl']!,
+                        onDelete: () => deleteDoctor(index),
+                      );
+                    },
                   ),
                 ),
               ),
@@ -128,7 +124,7 @@ class _DoctorsPageState extends State<DoctorsPage>
             // Fixed tabs section
             Expanded(
               flex:
-                  1, // Adjust the flex factor to control the height of the tabs section relative to the doctor cards list
+                  2, // Adjust the flex factor to control the height of the tabs section relative to the doctor cards list
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius:
@@ -271,43 +267,103 @@ class _UploadedDocumentsManagerState extends State<UploadedDocumentsManager> {
                 padding: const EdgeInsets.all(8.0),
                 child: FloatingActionButton(
                   onPressed: () async {
-                    FilePickerResult? result =
-                        await FilePicker.platform.pickFiles(
-                      type: FileType.custom,
-                      allowedExtensions: ['jpg', 'jpeg', 'png'],
-                    );
-                    if (result != null) {
-                      PlatformFile file = result.files.first;
+                    // FilePickerResult? result =
+                    //     await FilePicker.platform.pickFiles(
+                    //   type: FileType.custom,
+                    //   allowedExtensions: ['jpg', 'jpeg', 'png'],
+                    // );
+                    // if (result != null) {
+                    //   PlatformFile file = result.files.first;
 
-                      // Create a storage reference
-                      FirebaseStorage storage = FirebaseStorage.instance;
-                      Reference ref =
-                          storage.ref().child('uploads/${file.name}');
-                      UploadTask uploadTask = ref.putFile(File(file.path!));
+                    //   // Create a storage reference
+                    //   FirebaseStorage storage = FirebaseStorage.instance;
+                    //   Reference ref =
+                    //       storage.ref().child('uploads/${file.name}');
+                    //   UploadTask uploadTask = ref.putFile(File(file.path!));
 
-                      // Start the upload task
-                      uploadTask.then((res) async {
-                        final url = await res.ref.getDownloadURL();
-                        // Here you can store the URL to Firestore or another service
-                        FirebaseFirestore.instance
-                            .collection('users/${widget.user.uid}/documents')
-                            .add({
-                          'url': url,
-                          'name': file.name,
-                          'uploaded_at': FieldValue.serverTimestamp(),
-                        });
+                    //   // Start the upload task
+                    //   uploadTask.then((res) async {
+                    //     final url = await res.ref.getDownloadURL();
+                    //     // Here you can store the URL to Firestore or another service
+                    //     FirebaseFirestore.instance
+                    //         .collection('users/${widget.user.uid}/documents')
+                    //         .add({
+                    //       'url': url,
+                    //       'name': file.name,
+                    //       'uploaded_at': FieldValue.serverTimestamp(),
+                    //     });
 
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Upload complete')),
-                        );
-                      }).catchError((e) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Upload failed')),
-                        );
-                      });
-                    } else {
-                      // User canceled the picker
+                    //     ScaffoldMessenger.of(context).showSnackBar(
+                    //       const SnackBar(content: Text('Upload complete')),
+                    //     );
+                    //   }).catchError((e) {
+                    //     ScaffoldMessenger.of(context).showSnackBar(
+                    //       const SnackBar(content: Text('Upload failed')),
+                    //     );
+                    //   });
+                    // } else {
+                    //   // User canceled the picker
+                    // }
+                    final ImagePicker _picker = ImagePicker();
+                    XFile? pickedFile;
+
+                    // Function to prompt user for choice and pick image
+                    void pickImage() async {
+                      final choice = await showDialog<ImageSource>(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Text("Upload Image"),
+                          content: Text(
+                              "Where would you like to upload the image from?"),
+                          actions: [
+                            TextButton(
+                              onPressed: () =>
+                                  Navigator.of(context).pop(ImageSource.camera),
+                              child: Text("Camera"),
+                            ),
+                            TextButton(
+                              onPressed: () => Navigator.of(context)
+                                  .pop(ImageSource.gallery),
+                              child: Text("Gallery"),
+                            ),
+                          ],
+                        ),
+                      );
+
+                      if (choice != null) {
+                        pickedFile = await _picker.pickImage(source: choice);
+                        if (pickedFile != null) {
+                          // Proceed with uploading
+                          File imageFile = File(pickedFile!.path);
+                          String fileName = path.basename(pickedFile!.path);
+                          FirebaseStorage storage = FirebaseStorage.instance;
+                          Reference ref =
+                              storage.ref().child('uploads/$fileName');
+                          UploadTask uploadTask = ref.putFile(imageFile);
+
+                          try {
+                            final res = await uploadTask;
+                            final url = await res.ref.getDownloadURL();
+                            await FirebaseFirestore.instance
+                                .collection(
+                                    'users/${FirebaseAuth.instance.currentUser!.uid}/documents')
+                                .add({
+                              'url': url,
+                              'name': fileName,
+                              'uploaded_at': FieldValue.serverTimestamp(),
+                            });
+
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('Upload complete')));
+                          } catch (e) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('Upload failed: $e')));
+                          }
+                        }
+                      }
                     }
+
+                    pickImage();
                   },
                   child: Icon(Icons.add),
                   backgroundColor: const Color(0xFFF4A223),

@@ -12,7 +12,24 @@ import 'package:misflo/pages/navigation_page.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
-  Gemini.init(apiKey: 'AIzaSyBsTMK1Hh6n3S4HrDuaS0ijQ3dRxBzq6vc');
+  Gemini.init(
+      apiKey: 'AIzaSyBsTMK1Hh6n3S4HrDuaS0ijQ3dRxBzq6vc',
+      safetySettings: [
+        SafetySetting(
+            category: SafetyCategory.hateSpeech,
+            threshold: SafetyThreshold.blockNone),
+        SafetySetting(
+            category: SafetyCategory.dangerous,
+            threshold: SafetyThreshold.blockNone),
+        SafetySetting(
+            category: SafetyCategory.harassment,
+            threshold: SafetyThreshold.blockNone),
+        SafetySetting(
+            category: SafetyCategory.sexuallyExplicit,
+            threshold: SafetyThreshold.blockNone)
+      ],
+      generationConfig: GenerationConfig(
+          temperature: 0.9, topK: 32, topP: 1, maxOutputTokens: 2048));
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
