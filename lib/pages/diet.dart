@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:misflo/pages/diet2.dart';
 import 'package:misflo/utils/screentools.dart';
 
 class Diet extends StatefulWidget {
@@ -175,17 +176,27 @@ class _DietState extends State<Diet> {
                                           ],
                                         ),
                                       ),
-                                      Container(
-                                        height: 48,
-                                        width: 48,
-                                        decoration: BoxDecoration(
-                                          color: Colors.black,
-                                          borderRadius:
-                                              BorderRadius.circular(24),
-                                        ),
-                                        child: const Icon(
-                                          Icons.add,
-                                          color: Colors.white,
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const Diet2()),
+                                          );
+                                        },
+                                        child: Container(
+                                          height: 48,
+                                          width: 48,
+                                          decoration: BoxDecoration(
+                                            color: Colors.black,
+                                            borderRadius:
+                                                BorderRadius.circular(24),
+                                          ),
+                                          child: const Icon(
+                                            Icons.add,
+                                            color: Colors.white,
+                                          ),
                                         ),
                                       ),
                                     ],
