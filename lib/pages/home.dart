@@ -3,7 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:misflo/pages/doctor.dart';
+import 'package:misflo/pages/login.dart';
 import 'package:misflo/pages/misboo.dart';
+import 'package:misflo/pages/navigation_page.dart';
 import 'package:misflo/utils/screentools.dart';
 import 'package:intl/intl.dart' show DateFormat, toBeginningOfSentenceCase;
 
@@ -53,7 +55,8 @@ class _HomeState extends State<Home> {
           var displayName = userData["displayName"];
           var currentDate = DateTime.now();
           DateTime lastPeriodLog =
-              (userData["periodLastLog"] as Timestamp).toDate();
+              (userData["periodLastLog"] as Timestamp).toDate() ??
+                  DateTime.now();
           var difference = currentDate.difference(lastPeriodLog).inDays;
           var januaryFirstIndex =
               currentDate.difference(DateTime(currentDate.year, 1, 1)).inDays;
@@ -401,7 +404,13 @@ class _HomeState extends State<Home> {
                           PopupMenuItem(
                             child: Text('Log Out'),
                             onTap: () {
-                              // Handle option 1 tap
+                              FirebaseAuth.instance.signOut();
+                              User? user = FirebaseAuth.instance.currentUser;
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Login()),
+                              );
                             },
                           ),
                           PopupMenuItem(

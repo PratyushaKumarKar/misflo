@@ -86,18 +86,9 @@ class _SectionChatState extends State<SectionChat> {
                   loading = true;
 
                   gemini.chat(chats).then((value) {
-                    try {
-                      chats.add(Content(
-                          role: 'model', parts: [Parts(text: value?.output)]));
-                      loading = false;
-                    } on Exception catch (e) {
-                      chats.add(Content(role: 'model', parts: [
-                        Parts(
-                            text:
-                                "Your message might be against our safety rules")
-                      ]));
-                      loading = false;
-                    }
+                    chats.add(Content(
+                        role: 'model', parts: [Parts(text: value?.output)]));
+                    loading = false;
                   });
                 }
               },

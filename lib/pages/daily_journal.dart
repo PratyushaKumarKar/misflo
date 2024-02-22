@@ -13,16 +13,38 @@ class DailyJournalPage extends StatefulWidget {
 class _DailyJournalPageState extends State<DailyJournalPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  late ScrollController _scrollController;
+  void _handleTabSelection() {
+    if (_tabController.index == 0) {
+      // Check if the first tab is selected
+      var currentDate = DateTime.now();
+      int currentIndex =
+          currentDate.difference(DateTime(currentDate.year, 1, 1)).inDays;
+
+      // Scroll to the current date tile
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          currentIndex * width(context, 90.2),
+          duration: Duration(milliseconds: 200),
+          curve: Curves.linear,
+        );
+      }
+    }
+  }
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
+    _scrollController = ScrollController();
+    _tabController.addListener(_handleTabSelection);
   }
 
   @override
   void dispose() {
     _tabController.dispose();
+
+    _scrollController.dispose();
     super.dispose();
   }
 
