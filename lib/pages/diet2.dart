@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:misflo/pages/diet_recipies.dart';
 // Ensure you have 'screentools.dart' in your project for this to work.
 import 'package:misflo/utils/screentools.dart';
 
@@ -118,8 +119,17 @@ class _Diet2State extends State<Diet2> {
                       Container(
                         height: height(context, 70),
                         width: width(context, 386),
-                        child: Image.asset("assets/Explore_Banner.png",
-                            fit: BoxFit.fill),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const DietRecipes()),
+                            );
+                          },
+                          child: Image.asset("assets/Explore_Banner.png",
+                              fit: BoxFit.fill),
+                        ),
                       )
                     ],
                   )),
