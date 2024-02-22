@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:misflo/utils/screentools.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class DailyJournalPage extends StatefulWidget {
   const DailyJournalPage({super.key});
@@ -36,6 +37,9 @@ class _DailyJournalPageState extends State<DailyJournalPage>
     _scrollController = ScrollController();
   }
 
+  void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
+    // TODO: implement your code here
+  }
   @override
   void dispose() {
     _tabController.dispose();
@@ -266,9 +270,23 @@ class _DailyJournalPageState extends State<DailyJournalPage>
                                 );
                               }),
                               SingleChildScrollView(
-                                controller: scrollController,
-                                child: Text('History Content'),
-                              ),
+                                  controller: scrollController,
+                                  child: Column(children: [
+                                    SfDateRangePicker(
+                                      initialSelectedRange: PickerDateRange(
+                                        DateTime.now(),
+                                        DateTime.timestamp(),
+                                      ),
+                                      onSelectionChanged: _onSelectionChanged,
+                                      selectionMode:
+                                          DateRangePickerSelectionMode.range,
+                                      view: DateRangePickerView.month,
+                                      toggleDaySelection: false,
+                                      monthViewSettings:
+                                          DateRangePickerMonthViewSettings(
+                                              firstDayOfWeek: 1),
+                                    )
+                                  ])),
                               SingleChildScrollView(
                                 controller: scrollController,
                                 child: Text('Medication Content'),
