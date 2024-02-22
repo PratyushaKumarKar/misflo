@@ -101,7 +101,7 @@ class _SectionChatState extends State<SectionChat> {
 
   Widget chatItem(BuildContext context, int index) {
     final Content content = chats[index];
-
+    
     return Padding(
       padding: EdgeInsets.only(
         top: height(context, 10),
