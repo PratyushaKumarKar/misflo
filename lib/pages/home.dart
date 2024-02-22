@@ -432,7 +432,9 @@ class _HomeState extends State<Home> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const SectionChat()));
+                                builder: (context) => SectionChat(
+                                      user: widget.user,
+                                    )));
                       },
                       child: Image.asset(
                         "assets/misboo.png",

@@ -12,7 +12,10 @@ import 'package:misflo/pages/navigation_page.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
-  Gemini.init(apiKey: 'AIzaSyBsTMK1Hh6n3S4HrDuaS0ijQ3dRxBzq6vc');
+  Gemini.init(
+      apiKey: 'AIzaSyBsTMK1Hh6n3S4HrDuaS0ijQ3dRxBzq6vc',
+      generationConfig: GenerationConfig(
+          temperature: 0.4, topK: 32, topP: 1, maxOutputTokens: 2048));
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

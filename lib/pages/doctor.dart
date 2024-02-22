@@ -89,38 +89,34 @@ class _DoctorsPageState extends State<DoctorsPage>
             // Scrollable doctors section
             Container(
               height: height(context, 400),
-              child: Expanded(
-                flex:
-                    1, // Adjust the flex factor to control the height of the doctor cards list relative to the tabs section
-                child: Container(
-                  decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.25),
-                          spreadRadius: -3,
-                          blurRadius: 10.3,
-                          offset:
-                              const Offset(1, -5), // changes position of shadow
-                        ),
-                      ],
-                      borderRadius:
-                          BorderRadius.all(Radius.circular(width(context, 35))),
-                      color: Colors.white),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ListView.builder(
-                      itemCount: doctors.length,
-                      itemBuilder: (context, index) {
-                        return DoctorCard(
-                          index: index,
-                          length: doctors.length,
-                          clinicName: doctors[index]['clinicName']!,
-                          doctorName: doctors[index]['doctorName']!,
-                          imageUrl: doctors[index]['imageUrl']!,
-                          onDelete: () => deleteDoctor(index),
-                        );
-                      },
-                    ),
+              child: Container(
+                decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.25),
+                        spreadRadius: -3,
+                        blurRadius: 10.3,
+                        offset:
+                            const Offset(1, -5), // changes position of shadow
+                      ),
+                    ],
+                    borderRadius:
+                        BorderRadius.all(Radius.circular(width(context, 35))),
+                    color: Colors.white),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListView.builder(
+                    itemCount: doctors.length,
+                    itemBuilder: (context, index) {
+                      return DoctorCard(
+                        index: index,
+                        length: doctors.length,
+                        clinicName: doctors[index]['clinicName']!,
+                        doctorName: doctors[index]['doctorName']!,
+                        imageUrl: doctors[index]['imageUrl']!,
+                        onDelete: () => deleteDoctor(index),
+                      );
+                    },
                   ),
                 ),
               ),
@@ -128,7 +124,7 @@ class _DoctorsPageState extends State<DoctorsPage>
             // Fixed tabs section
             Expanded(
               flex:
-                  1, // Adjust the flex factor to control the height of the tabs section relative to the doctor cards list
+                  2, // Adjust the flex factor to control the height of the tabs section relative to the doctor cards list
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius:
