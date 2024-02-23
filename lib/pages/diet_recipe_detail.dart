@@ -59,11 +59,6 @@ class DietRecipeDetail extends StatelessWidget {
                 },
                 child: Container(
                   padding: const EdgeInsets.all(8), // Padding for the tap area
-                  decoration: BoxDecoration(
-                    color: Colors.black
-                        .withOpacity(0.25), // Semi-transparent black background
-                    shape: BoxShape.circle,
-                  ),
                   child: SvgPicture.asset(
                     'assets/back_button_white.svg',
                     width: 32, // Your SVG file size
@@ -112,6 +107,12 @@ class DietRecipeDetail extends StatelessWidget {
                   right: width(context, 25),
                 ),
                 decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                        blurRadius: 4,
+                        color: Colors.black.withOpacity(0.25),
+                        offset: Offset(-1, 1))
+                  ],
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(34),
                 ),
@@ -189,9 +190,14 @@ class DietRecipeDetail extends StatelessWidget {
                   horizontal: width(context, 25),
                 ),
                 decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                ),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                          blurRadius: 4,
+                          color: Colors.black.withOpacity(0.25),
+                          offset: Offset(-1, 1))
+                    ]),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -287,7 +293,7 @@ Widget _buildQuantityItem(BuildContext context, String text, bool isQuantity) {
 Widget buildCupertinoPicker(
     BuildContext context, List<String> itemList, bool isQuantity) {
   return Container(
-    height: height(context, 200), // Height of the entire picker container
+    height: height(context, 120), // Height of the entire picker container
     color: Colors.white, // Background color of the picker
     child: CupertinoPicker(
       itemExtent: height(context, 40), // Height of each item in the picker

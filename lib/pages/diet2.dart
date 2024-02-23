@@ -147,7 +147,7 @@ class _Diet2State extends State<Diet2> {
                   print("load create custom Diet Plan page");
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
+                  backgroundColor: Color.fromARGB(255, 244, 160, 35),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(25),
@@ -161,7 +161,7 @@ class _Diet2State extends State<Diet2> {
                   child: Text(
                     'Can' 't find your food? Make your own',
                     style: TextStyle(
-                        color: Color.fromARGB(255, 244, 160, 35),
+                        color: Colors.black,
                         fontSize: height(context, 20),
                         fontWeight: FontWeight.w500),
                   ),
@@ -220,7 +220,12 @@ class _Diet2State extends State<Diet2> {
     return ListTile(
       title: Text(title),
       trailing: IconButton(
-        icon: Icon(Icons.add, color: Colors.yellow),
+        icon: Container(
+          child: Icon(
+            Icons.add,
+            color: Color.fromRGBO(244, 162, 35, 100),
+          ),
+        ),
         onPressed: () {
           print("opening$title ");
           Navigator.push(
