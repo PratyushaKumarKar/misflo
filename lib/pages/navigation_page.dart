@@ -307,7 +307,6 @@ class _NavigationPageState extends State<NavigationPage> {
                   width: 64,
                   child: Stack(
                     children: [
-                      // White circle
                       Container(
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,

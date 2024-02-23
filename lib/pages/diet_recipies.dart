@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 // Ensure you have 'screentools.dart' in your project for this to work.
 import 'package:misflo/utils/screentools.dart';
 
@@ -14,6 +15,7 @@ class _DietRecipesState extends State<DietRecipes> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       body: SafeArea(
         child: Stack(
           children: [
@@ -31,24 +33,29 @@ class _DietRecipesState extends State<DietRecipes> {
 
                 // Temporary color to ensure visibility
                 child: GridView.builder(
-                  shrinkWrap: true, // Add this line
+
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    // Make sure this ratio is correct
+                    crossAxisCount: 2,
+                    crossAxisSpacing: width(context, 10),
+                    mainAxisSpacing: height(context, 11),
+                    childAspectRatio: width(context, 175) /
+                        height(context, 236), // Adjusted aspect ratio
+                  ),
+                  shrinkWrap: false, // Add this line
+
                   primary: false, // Add this line
                   // Set the physics to BouncingScrollPhysics for a better scroll effect on iOS
                   physics: const ScrollPhysics(),
                   // Add some padding to the GridView
                   padding: EdgeInsets.all(width(context, 0)),
                   itemCount: 16, // 2 items per row * 4 rows = 8
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    childAspectRatio: (MediaQuery.of(context).size.width / 2) /
-                        (height(
-                            context, 226)), // Make sure this ratio is correct
-                    crossAxisCount: 2,
-                    crossAxisSpacing: width(context, 10),
-                    mainAxisSpacing: height(context, 11),
-                  ),
+
 
                   itemBuilder: (context, index) {
                     return RecipeCard(
+                      quality: "Protein Rich",
+
                       imagePath:
                           'assets/CardProduct0.png', // Replace with your actual image path
                       title: 'Yum Fries', // Replace with actual title
@@ -73,7 +80,9 @@ class _DietRecipesState extends State<DietRecipes> {
                   width: width(context, 415),
                   decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(34),
+
+                      borderRadius: BorderRadius.circular(15),
+
                       boxShadow: [
                         BoxShadow(
                             blurRadius: 5,
@@ -161,11 +170,18 @@ class _DietRecipesState extends State<DietRecipes> {
         ],
         borderRadius: BorderRadius.circular(30),
       ),
-      child: TextField(
-        decoration: InputDecoration(
-          hintText: 'Search',
-          prefixIcon: Icon(Icons.search),
-          border: InputBorder.none,
+
+      child: Align(
+        alignment: Alignment.center,
+        child: TextField(
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.only(bottom: height(context, 12)),
+            hintText: 'Search',
+            hintStyle: GoogleFonts.lato(color: Colors.black),
+            prefixIcon: SvgPicture.asset("assets/Search.svg"),
+            border: InputBorder.none,
+          ),
+
         ),
       ),
     );
@@ -183,6 +199,9 @@ class _DietRecipesState extends State<DietRecipes> {
             // Handle button tap
           },
           style: ElevatedButton.styleFrom(
+
+            surfaceTintColor: Colors.white,
+
             backgroundColor:
                 Color.fromARGB(255, 255, 255, 255), // Button background color
             foregroundColor: Colors.black, // Button text color
@@ -209,6 +228,9 @@ class _DietRecipesState extends State<DietRecipes> {
 }
 
 class RecipeCard extends StatelessWidget {
+
+  final String quality;
+
   final String imagePath;
   final String title;
   final String subtitle;
@@ -222,14 +244,21 @@ class RecipeCard extends StatelessWidget {
     required this.subtitle,
     required this.onHeartPressed,
     required this.onButtonPressed,
+
+    required this.quality,
+
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
+
+      width: width(context, 175),
+      height: height(context, 236),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(20),
+
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.2),
@@ -239,69 +268,58 @@ class RecipeCard extends StatelessWidget {
           ),
         ],
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Stack(
         children: [
           ClipRRect(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
-            child: Image.asset(
-              imagePath,
-              fit: BoxFit.cover,
-              width: width(context, 220.6),
-              height: height(context,
-                  87), // Fixed height for the image // Fixed height for the image
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                      Text(
-                        subtitle,
-                        style: const TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ],
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 14),
+                child: Container(
+                  height: height(context, 127),
+                  width: width(context, 180),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    child: Image.asset(
+                      imagePath,
+                      fit: BoxFit.fill,
+                      width: width(context, 220.6),
+                      height: height(context, 87),
+                    ),
                   ),
                 ),
-                IconButton(
-                  icon: const Icon(Icons.favorite_border),
-                  onPressed: onHeartPressed,
-                  highlightColor: Color(0xFFF4A223),
-                ),
-              ],
-            ),
-          ),
-          Spacer(),
-          Padding(
-            padding: const EdgeInsets.all(0.0),
-            child: ElevatedButton(
-              onPressed: onButtonPressed,
-              style: ElevatedButton.styleFrom(
-                primary: Color(0xFFF4A223),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(9),
-                ),
-                minimumSize: Size(
-                    width(context, 220.6), 48), // Fixed height for the button
               ),
-              child: const Text('See recipes'),
             ),
           ),
+          Positioned(
+            top: height(context, 160),
+            left: width(context, 13.5),
+            child: Text(
+              title,
+              style: GoogleFonts.istokWeb(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF2C3B52)),
+            ),
+          ),
+          Positioned(
+            top: height(context, 190),
+            left: width(context, 13.5),
+            child: Text(
+              quality,
+              style: GoogleFonts.istokWeb(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF848E97)),
+            ),
+          ),
+         
+
         ],
       ),
     );
