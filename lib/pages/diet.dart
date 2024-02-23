@@ -1,126 +1,7 @@
-// import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:flutter/material.dart';
-
-// class Diet extends StatelessWidget {
-//   const Diet({super.key, required User user});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Daily Journal'),
-//         leading: IconButton(
-//           icon: Icon(Icons.arrow_back),
-//           onPressed: () => Navigator.of(context).pop(),
-//         ),
-//         actions: [
-//           IconButton(
-//             icon: Icon(Icons.share),
-//             onPressed: () {
-//               // Handle share action
-//             },
-//           ),
-//         ],
-//       ),
-//       body: SingleChildScrollView(
-//         child: Column(
-//           children: <Widget>[
-//             Image.asset('assets/cereal.jpg'), // Replace with your asset path
-//             Container(
-//               padding: EdgeInsets.all(16),
-//               child: Image.asset('assets/soupot.jpg'),
-//             ),
-//             Padding(
-//               padding: EdgeInsets.all(16),
-//               child: Row(
-//                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                 children: <Widget>[
-//                   Text('Track upto\n2,000 calories'),
-//                   Column(
-//                     children: <Widget>[
-//                       Icon(Icons.add, color: Colors.green),
-//                       Text('500 users tracked their food in last 24 Hrs')
-//                     ],
-//                   )
-//                 ],
-//               ),
-//             ),
-//             ElevatedButton(
-//               onPressed: () {
-//                 // Handle button tap for creating diet and workout plan
-//               },
-//               child: Text('Create your Diet & Workout Plan'),
-//             ),
-//             Divider(),
-//             ListTile(
-//               title: Text('Weight goals'),
-//               trailing: Text('71.5 kg'),
-//             ),
-//             Divider(),
-//             Padding(
-//               padding: EdgeInsets.all(16),
-//               child: const Align(
-//                 alignment: Alignment.centerLeft,
-//                 child: Text(
-//                   'Blogs',
-//                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-//                 ),
-//               ),
-//             ),
-//             ListView.builder(
-//               physics:
-//                   NeverScrollableScrollPhysics(), // to disable ListView's scrolling
-//               shrinkWrap:
-//                   true, // Use this to make ListView inside Column/SingleChildScrollView
-//               itemCount: 4, // Assuming there are 4 blog posts
-//               itemBuilder: (BuildContext context, int index) {
-//                 // Placeholder for blog post item, replace with your data model
-//                 return BlogPostItem(
-//                   date: '1ST MAY - SAT 2:00 PM',
-//                   title: 'How music helps in weight loss',
-//                   author: 'DR. XYZ',
-//                   imageUrl:
-//                       'assets/blog_post_image_$index.jpg', // Replace with your asset path
-//                 );
-//               },
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// class BlogPostItem extends StatelessWidget {
-//   final String date;
-//   final String title;
-//   final String author;
-//   final String imageUrl;
-
-//   const BlogPostItem({
-//     Key? key,
-//     required this.date,
-//     required this.title,
-//     required this.author,
-//     required this.imageUrl,
-//   }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Card(
-//       child: ListTile(
-//         leading: Image.asset(imageUrl), // Replace with your asset path
-//         title: Text(title),
-//         subtitle: Text('$date by $author'),
-//       ),
-//     );
-//   }
-// }
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:misflo/pages/diet2.dart';
 import 'package:misflo/utils/screentools.dart';
 
 class Diet extends StatefulWidget {
@@ -170,8 +51,11 @@ class _DietState extends State<Diet> {
                     children: <Widget>[
                       // Adding shadow to the cereal image
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 7),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: width(context, 0)),
                         child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: height(context, 285),
                           decoration: BoxDecoration(
                             boxShadow: [
                               BoxShadow(
@@ -184,8 +68,9 @@ class _DietState extends State<Diet> {
                             ],
                           ),
                           child: Image.asset(
-                              fit: BoxFit.contain,
-                              'assets/cereal.jpg'), // Image path kept as provided
+                            'assets/cereal.jpg',
+                            fit: BoxFit.contain,
+                          ), // Image path kept as provided
                         ),
                       ),
                       Padding(
@@ -193,12 +78,18 @@ class _DietState extends State<Diet> {
                         child: Container(
                           margin: const EdgeInsets.all(0),
                           decoration: BoxDecoration(
-                            border: Border.all(color: Colors.white, width: 5),
+                            border: Border.all(
+                                color: Colors.white, width: width(context, 5)),
                             borderRadius: BorderRadius.circular(35),
                           ),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(12),
-                            child: Image.asset('assets/soupot.jpg'),
+                            child: Image.asset(
+                              'assets/soupot.jpg',
+                              fit: BoxFit.fill,
+                              width: width(context, 418),
+                              height: height(context, 121),
+                            ),
                           ),
                         ),
                       ),
@@ -209,7 +100,7 @@ class _DietState extends State<Diet> {
                           Positioned(
                             left: width(context, 6),
                             right: width(context, 6),
-                            bottom: 19,
+                            bottom: height(context, 15),
                             child: ElevatedButton(
                               onPressed: () {
                                 // Handle button tap for creating diet and workout plan
@@ -249,7 +140,10 @@ class _DietState extends State<Diet> {
                                 color: Colors.white,
                                 borderRadius: BorderRadius.all(
                                     Radius.circular(width(context, 22)))),
-                            margin: const EdgeInsets.fromLTRB(6, 16, 6,
+                            margin: EdgeInsets.fromLTRB(
+                                width(context, 6),
+                                16,
+                                width(context, 6),
                                 58), // Increase bottom margin to accommodate the button
                             child: Padding(
                               padding: const EdgeInsets.all(16),
@@ -282,17 +176,27 @@ class _DietState extends State<Diet> {
                                           ],
                                         ),
                                       ),
-                                      Container(
-                                        height: 48,
-                                        width: 48,
-                                        decoration: BoxDecoration(
-                                          color: Colors.black,
-                                          borderRadius:
-                                              BorderRadius.circular(24),
-                                        ),
-                                        child: const Icon(
-                                          Icons.add,
-                                          color: Colors.white,
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const Diet2()),
+                                          );
+                                        },
+                                        child: Container(
+                                          height: 48,
+                                          width: 48,
+                                          decoration: BoxDecoration(
+                                            color: Colors.black,
+                                            borderRadius:
+                                                BorderRadius.circular(24),
+                                          ),
+                                          child: const Icon(
+                                            Icons.add,
+                                            color: Colors.white,
+                                          ),
                                         ),
                                       ),
                                     ],
