@@ -33,22 +33,25 @@ class _DietRecipesState extends State<DietRecipes> {
 
                 // Temporary color to ensure visibility
                 child: GridView.builder(
-                  shrinkWrap: true, // Add this line
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    // Make sure this ratio is correct
+                    crossAxisCount: 2,
+                    crossAxisSpacing: width(context, 10),
+                    mainAxisSpacing: height(context, 11),
+                    childAspectRatio: width(context, 175) /
+                        height(context, 236), // Adjusted aspect ratio
+                  ),
+                  shrinkWrap: false, // Add this line
                   primary: false, // Add this line
                   // Set the physics to BouncingScrollPhysics for a better scroll effect on iOS
                   physics: const ScrollPhysics(),
                   // Add some padding to the GridView
                   padding: EdgeInsets.all(width(context, 0)),
                   itemCount: 16, // 2 items per row * 4 rows = 8
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    // Make sure this ratio is correct
-                    crossAxisCount: 2,
-                    crossAxisSpacing: width(context, 10),
-                    mainAxisSpacing: height(context, 11),
-                  ),
 
                   itemBuilder: (context, index) {
                     return RecipeCard(
+                      quality: "Protein Rich",
                       imagePath:
                           'assets/CardProduct0.png', // Replace with your actual image path
                       title: 'Yum Fries', // Replace with actual title
@@ -215,6 +218,7 @@ class _DietRecipesState extends State<DietRecipes> {
 }
 
 class RecipeCard extends StatelessWidget {
+  final String quality;
   final String imagePath;
   final String title;
   final String subtitle;
@@ -228,6 +232,7 @@ class RecipeCard extends StatelessWidget {
     required this.subtitle,
     required this.onHeartPressed,
     required this.onButtonPressed,
+    required this.quality,
   }) : super(key: key);
 
   @override
@@ -236,7 +241,7 @@ class RecipeCard extends StatelessWidget {
       width: width(context, 175),
       height: height(context, 236),
       decoration: BoxDecoration(
-        color: Color(0xFFF1F1F1),
+        color: Colors.white,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
@@ -275,7 +280,28 @@ class RecipeCard extends StatelessWidget {
               ),
             ),
           ),
-          Positioned(top: height(context, 150), child: Text("data"))
+          Positioned(
+            top: height(context, 160),
+            left: width(context, 13.5),
+            child: Text(
+              title,
+              style: GoogleFonts.istokWeb(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF2C3B52)),
+            ),
+          ),
+          Positioned(
+            top: height(context, 190),
+            left: width(context, 13.5),
+            child: Text(
+              quality,
+              style: GoogleFonts.istokWeb(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF848E97)),
+            ),
+          ),
           // Padding(
           //   padding: const EdgeInsets.all(8.0),
           //   child: Row(
