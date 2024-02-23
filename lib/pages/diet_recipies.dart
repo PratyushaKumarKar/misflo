@@ -33,6 +33,7 @@ class _DietRecipesState extends State<DietRecipes> {
 
                 // Temporary color to ensure visibility
                 child: GridView.builder(
+
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     // Make sure this ratio is correct
                     crossAxisCount: 2,
@@ -42,6 +43,7 @@ class _DietRecipesState extends State<DietRecipes> {
                         height(context, 236), // Adjusted aspect ratio
                   ),
                   shrinkWrap: false, // Add this line
+
                   primary: false, // Add this line
                   // Set the physics to BouncingScrollPhysics for a better scroll effect on iOS
                   physics: const ScrollPhysics(),
@@ -49,9 +51,11 @@ class _DietRecipesState extends State<DietRecipes> {
                   padding: EdgeInsets.all(width(context, 0)),
                   itemCount: 16, // 2 items per row * 4 rows = 8
 
+
                   itemBuilder: (context, index) {
                     return RecipeCard(
                       quality: "Protein Rich",
+
                       imagePath:
                           'assets/CardProduct0.png', // Replace with your actual image path
                       title: 'Yum Fries', // Replace with actual title
@@ -76,7 +80,9 @@ class _DietRecipesState extends State<DietRecipes> {
                   width: width(context, 415),
                   decoration: BoxDecoration(
                       color: Colors.white,
+
                       borderRadius: BorderRadius.circular(15),
+
                       boxShadow: [
                         BoxShadow(
                             blurRadius: 5,
@@ -164,6 +170,7 @@ class _DietRecipesState extends State<DietRecipes> {
         ],
         borderRadius: BorderRadius.circular(30),
       ),
+
       child: Align(
         alignment: Alignment.center,
         child: TextField(
@@ -174,6 +181,7 @@ class _DietRecipesState extends State<DietRecipes> {
             prefixIcon: SvgPicture.asset("assets/Search.svg"),
             border: InputBorder.none,
           ),
+
         ),
       ),
     );
@@ -191,7 +199,9 @@ class _DietRecipesState extends State<DietRecipes> {
             // Handle button tap
           },
           style: ElevatedButton.styleFrom(
+
             surfaceTintColor: Colors.white,
+
             backgroundColor:
                 Color.fromARGB(255, 255, 255, 255), // Button background color
             foregroundColor: Colors.black, // Button text color
@@ -218,7 +228,9 @@ class _DietRecipesState extends State<DietRecipes> {
 }
 
 class RecipeCard extends StatelessWidget {
+
   final String quality;
+
   final String imagePath;
   final String title;
   final String subtitle;
@@ -232,17 +244,21 @@ class RecipeCard extends StatelessWidget {
     required this.subtitle,
     required this.onHeartPressed,
     required this.onButtonPressed,
+
     required this.quality,
+
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
+
       width: width(context, 175),
       height: height(context, 236),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
+
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.2),
@@ -302,56 +318,8 @@ class RecipeCard extends StatelessWidget {
                   color: Color(0xFF848E97)),
             ),
           ),
-          // Padding(
-          //   padding: const EdgeInsets.all(8.0),
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //     children: [
-          //       Expanded(
-          //         child: Column(
-          //           crossAxisAlignment: CrossAxisAlignment.start,
-          //           children: [
-          //             Text(
-          //               title,
-          //               style: const TextStyle(
-          //                 fontWeight: FontWeight.bold,
-          //                 fontSize: 16,
-          //               ),
-          //             ),
-          //             Text(
-          //               subtitle,
-          //               style: const TextStyle(
-          //                 color: Colors.grey,
-          //                 fontSize: 14,
-          //               ),
-          //             ),
-          //           ],
-          //         ),
-          //       ),
-          //       IconButton(
-          //         icon: const Icon(Icons.favorite_border),
-          //         onPressed: onHeartPressed,
-          //         highlightColor: Color(0xFFF4A223),
-          //       ),
-          //     ],
-          //   ),
-          // ),
-          // Spacer(),
-          // Positioned(
-          //   top: height(context, 160),
-          //   child: ElevatedButton(
-          //     onPressed: onButtonPressed,
-          //     style: ElevatedButton.styleFrom(
-          //       primary: Color(0xFFF4A223),
-          //       shape: RoundedRectangleBorder(
-          //         borderRadius: BorderRadius.circular(9),
-          //       ),
-          //       minimumSize: Size(
-          //           width(context, 220.6), 48), // Fixed height for the button
-          //     ),
-          //     child: const Text('See recipes'),
-          //   ),
-          // ),
+         
+
         ],
       ),
     );

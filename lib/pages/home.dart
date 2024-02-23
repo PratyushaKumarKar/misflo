@@ -108,6 +108,7 @@ class _HomeState extends State<Home> {
                               fontSize: width(context, 14),
                               color: Color(0xFF746F6F)),
                         ),
+
                       ),
                       Positioned(
                         top: height(context, 112),
@@ -189,6 +190,7 @@ class _HomeState extends State<Home> {
                     backgroundImage: NetworkImage(photoUrl),
                   ),
                 ),
+
               ),
               Positioned(
                 right: width(context, 12),
@@ -203,6 +205,7 @@ class _HomeState extends State<Home> {
           ),
         );
       },
+
     );
   }
 }
