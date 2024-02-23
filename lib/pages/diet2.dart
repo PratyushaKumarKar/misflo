@@ -67,7 +67,9 @@ class _Diet2State extends State<Diet2> {
                   )),
             ),
             Positioned(
+
               top: height(context, 10),
+
               left: width(context, 7),
               right: width(context, 7),
               child: Container(
@@ -191,6 +193,7 @@ class _Diet2State extends State<Diet2> {
       ),
       child: TextField(
         decoration: InputDecoration(
+
           contentPadding: EdgeInsets.only(bottom: height(context, 12)),
           hintText: 'Search',
           hintStyle: GoogleFonts.lato(color: Colors.black),
