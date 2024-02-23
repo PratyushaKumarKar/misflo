@@ -9,6 +9,7 @@ import 'package:intl/intl.dart' show DateFormat, toBeginningOfSentenceCase;
 import 'package:misflo/widgets/logcrampbutton.dart';
 import 'package:misflo/widgets/misboobutton.dart';
 import 'package:misflo/widgets/periodtrackbutton.dart';
+import 'package:misflo/widgets/sleepmusic.dart';
 import 'package:misflo/widgets/todolistview.dart';
 
 class Home extends StatefulWidget {
@@ -108,7 +109,6 @@ class _HomeState extends State<Home> {
                               fontSize: width(context, 14),
                               color: Color(0xFF746F6F)),
                         ),
-
                       ),
                       Positioned(
                         top: height(context, 112),
@@ -140,6 +140,13 @@ class _HomeState extends State<Home> {
                             onPeriod: onPeriod,
                             firstTimeWidgetUser: firstTimeWidgetUser,
                             difference: difference),
+                      ),
+                      //=======================================SLEEP MUSIC WIDGET=======================
+                      Positioned(
+                        top: height(context, 650),
+                        left: width(context, 7),
+                        right: width(context, 7),
+                        child: SleepMusic(),
                       ),
                     ],
                   ),
@@ -190,7 +197,6 @@ class _HomeState extends State<Home> {
                     backgroundImage: NetworkImage(photoUrl),
                   ),
                 ),
-
               ),
               Positioned(
                 right: width(context, 12),
@@ -205,7 +211,6 @@ class _HomeState extends State<Home> {
           ),
         );
       },
-
     );
   }
 }
