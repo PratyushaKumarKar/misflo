@@ -68,7 +68,6 @@ class _DietState extends State<Diet> {
                             ],
                           ),
                           child: Image.asset(
-
                             'assets/cereal.jpg',
                             fit: BoxFit.contain,
                           ), // Image path kept as provided
@@ -185,6 +184,7 @@ class _DietState extends State<Diet> {
                                                 builder: (context) =>
                                                     const Diet2()),
                                           );
+                                          print("diet2.dart rendered");
                                         },
                                         child: Container(
                                           height: 48,

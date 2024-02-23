@@ -93,6 +93,8 @@ class _DietRecipesState extends State<DietRecipes> {
                           InkWell(
                             onTap: () {
                               print("back button press");
+                              // Assuming that Diet screen was the previous one, this will take you back to it
+                              Navigator.of(context).pop();
                             },
                             child: Container(
                               decoration: BoxDecoration(boxShadow: [

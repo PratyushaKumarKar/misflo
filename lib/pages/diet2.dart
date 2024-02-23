@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:misflo/pages/diet_recipe_detail.dart';
 import 'package:misflo/pages/diet_recipies.dart';
 // Ensure you have 'screentools.dart' in your project for this to work.
 import 'package:misflo/utils/screentools.dart';
@@ -94,6 +95,8 @@ class _Diet2State extends State<Diet2> {
                           InkWell(
                             onTap: () {
                               print("back button press");
+                              // Assuming that Diet screen was the previous one, this will take you back to it
+                              Navigator.of(context).pop();
                             },
                             child: Container(
                               decoration: BoxDecoration(boxShadow: [
@@ -141,6 +144,7 @@ class _Diet2State extends State<Diet2> {
               child: ElevatedButton(
                 onPressed: () {
                   // Handle button tap for creating diet and workout plan
+                  print("load create custom Diet Plan page");
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.black,
@@ -218,7 +222,11 @@ class _Diet2State extends State<Diet2> {
       trailing: IconButton(
         icon: Icon(Icons.add, color: Colors.yellow),
         onPressed: () {
-          // Handle the action when the plus icon is tapped
+          print("opening$title ");
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => DietRecipeDetail()),
+          );
         },
       ),
     );
