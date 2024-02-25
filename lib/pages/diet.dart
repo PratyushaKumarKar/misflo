@@ -75,14 +75,15 @@ class _DietState extends State<Diet> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: height(context, 10)),
+                        padding: EdgeInsets.only(
+                            top: height(context, 10), right: 5, left: 5),
                         child: Container(
                           height: height(context, 90),
                           decoration: BoxDecoration(
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.black.withOpacity(0.25),
-                                spreadRadius: 3,
+                                spreadRadius: 0,
                                 blurRadius: 4.5,
                                 offset: Offset(1, 4),
                               ),
