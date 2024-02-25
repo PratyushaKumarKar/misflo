@@ -17,6 +17,7 @@ class _Diet2State extends State<Diet2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       body: SafeArea(
         child: Stack(
           children: [
@@ -67,7 +68,9 @@ class _Diet2State extends State<Diet2> {
                   )),
             ),
             Positioned(
-              top: height(context, 20),
+
+              top: height(context, 10),
+
               left: width(context, 7),
               right: width(context, 7),
               child: Container(
@@ -194,8 +197,11 @@ class _Diet2State extends State<Diet2> {
       ),
       child: TextField(
         decoration: InputDecoration(
+
+          contentPadding: EdgeInsets.only(bottom: height(context, 12)),
           hintText: 'Search',
-          prefixIcon: Icon(Icons.search),
+          hintStyle: GoogleFonts.lato(color: Colors.black),
+          prefixIcon: SvgPicture.asset("assets/Search.svg"),
           border: InputBorder.none,
         ),
       ),

@@ -3,7 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:misflo/pages/daily_journal.dart';
+import 'package:misflo/pages/exercise.dart';
 import 'package:misflo/pages/home.dart';
+import 'package:misflo/pages/signup1.dart';
 import 'package:misflo/utils/screentools.dart';
 import 'package:misflo/pages/diet.dart';
 import 'dart:ui' as ui;
@@ -114,10 +116,10 @@ class _NavigationPageState extends State<NavigationPage> {
   Widget build(BuildContext context) {
     List<Widget> Pages = [
       Diet(user: widget.user),
-      DailyJournalPage(),
+      DailyJournalPage(), // connect this to firebase later
       Home(user: widget.user),
-      Text("Exercise"),
-      Text("Communiuty")
+      Exercise(), // connected to login flow for testing purposes.
+      Center(child: Text("Under Development"))
     ];
     return Scaffold(
         body: Pages[_currentindex],
@@ -307,7 +309,6 @@ class _NavigationPageState extends State<NavigationPage> {
                   width: 64,
                   child: Stack(
                     children: [
-                      // White circle
                       Container(
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,

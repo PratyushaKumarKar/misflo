@@ -92,7 +92,8 @@ class _DietState extends State<Diet> {
                                 Radius.circular(width(context, 22))),
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.all(16),
+                            padding: const EdgeInsets.only(
+                                left: 6, right: 6, top: 3),
                             child: Column(
                               children: [
                                 Row(
@@ -172,8 +173,6 @@ class _DietState extends State<Diet> {
                                         );
                                       },
                                       child: Container(
-                                        width: width(context, 110),
-                                        height: height(context, 25),
                                         decoration: BoxDecoration(
                                           color: Color(0xFFFFB459),
                                           borderRadius: BorderRadius.all(
@@ -181,8 +180,7 @@ class _DietState extends State<Diet> {
                                                   width(context, 22))),
                                         ),
                                         child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 6, top: 3),
+                                          padding: const EdgeInsets.all(6),
                                           child: Text(
                                             // use BMI page to export results here
                                             'Calculate BMI',
