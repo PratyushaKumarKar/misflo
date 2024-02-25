@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:misflo/pages/diet_recipe_detail.dart';
 import 'package:misflo/pages/diet_recipies.dart';
 // Ensure you have 'screentools.dart' in your project for this to work.
 import 'package:misflo/utils/screentools.dart';
@@ -97,6 +98,8 @@ class _Diet2State extends State<Diet2> {
                           InkWell(
                             onTap: () {
                               print("back button press");
+                              // Assuming that Diet screen was the previous one, this will take you back to it
+                              Navigator.of(context).pop();
                             },
                             child: Container(
                               decoration: BoxDecoration(boxShadow: [
@@ -144,9 +147,10 @@ class _Diet2State extends State<Diet2> {
               child: ElevatedButton(
                 onPressed: () {
                   // Handle button tap for creating diet and workout plan
+                  print("load create custom Diet Plan page");
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
+                  backgroundColor: Color.fromARGB(255, 244, 160, 35),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(25),
@@ -160,7 +164,7 @@ class _Diet2State extends State<Diet2> {
                   child: Text(
                     'Can' 't find your food? Make your own',
                     style: TextStyle(
-                        color: Color.fromARGB(255, 244, 160, 35),
+                        color: Colors.black,
                         fontSize: height(context, 20),
                         fontWeight: FontWeight.w500),
                   ),
@@ -222,9 +226,18 @@ class _Diet2State extends State<Diet2> {
     return ListTile(
       title: Text(title),
       trailing: IconButton(
-        icon: Icon(Icons.add, color: Colors.yellow),
+        icon: Container(
+          child: Icon(
+            Icons.add,
+            color: Color.fromRGBO(244, 162, 35, 100),
+          ),
+        ),
         onPressed: () {
-          // Handle the action when the plus icon is tapped
+          print("opening$title ");
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => DietRecipeDetail()),
+          );
         },
       ),
     );
