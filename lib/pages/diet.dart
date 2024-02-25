@@ -28,6 +28,7 @@ class _DietState extends State<Diet> {
           //         },
           //         child: SvgPicture.asset("assets/back_button.svg"))),
           Positioned(
+            width: MediaQuery.of(context).size.width,
             child: Text(
               "Diet Journal",
               style: GoogleFonts.poppins(
