@@ -28,6 +28,7 @@ class _DietState extends State<Diet> {
           //         },
           //         child: SvgPicture.asset("assets/back_button.svg"))),
           Positioned(
+            width: MediaQuery.of(context).size.width,
             child: Text(
               "Diet Journal",
               style: GoogleFonts.poppins(
@@ -76,19 +77,129 @@ class _DietState extends State<Diet> {
                       Padding(
                         padding: EdgeInsets.only(top: height(context, 10)),
                         child: Container(
-                          margin: const EdgeInsets.all(0),
+                          height: height(context, 90),
                           decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Colors.white, width: width(context, 5)),
-                            borderRadius: BorderRadius.circular(35),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.25),
+                                spreadRadius: 3,
+                                blurRadius: 4.5,
+                                offset: Offset(1, 4),
+                              ),
+                            ],
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(
+                                Radius.circular(width(context, 22))),
                           ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
-                            child: Image.asset(
-                              'assets/soupot.jpg',
-                              fit: BoxFit.fill,
-                              width: width(context, 418),
-                              height: height(context, 121),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    const Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            'Current BMI',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20,
+                                            ),
+                                          ),
+                                          Text(
+                                            // use BMI page to export results here
+                                            '23',
+                                            style: TextStyle(
+                                              color: Color(0xFFFFB459),
+                                              fontWeight: FontWeight.w900,
+                                              fontSize: 26,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        // Calculates BMI on Backend Using weight in kg, height in cm
+                                        print("BMI_calculated");
+
+                                        // Show a pop-up message
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: Text(
+                                                "BMI Calculated",
+                                                style: GoogleFonts.poppins(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 20,
+                                                  // Add any additional styling if needed
+                                                ),
+                                              ),
+                                              content: Text(
+                                                "Your BMI has been calculated successfully.",
+                                                style: GoogleFonts.poppins(
+                                                  color: Colors.grey,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 16,
+                                                  // Add any additional styling if needed
+                                                ),
+                                              ),
+                                              actions: <Widget>[
+                                                TextButton(
+                                                  child: Text(
+                                                    "OK",
+                                                    style: GoogleFonts.poppins(
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontSize: 20,
+                                                      // Add any additional styling if needed
+                                                    ),
+                                                  ),
+                                                  onPressed: () {
+                                                    Navigator.of(context)
+                                                        .pop(); // Dismiss the dialog
+                                                  },
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+                                      },
+                                      child: Container(
+                                        width: width(context, 110),
+                                        height: height(context, 25),
+                                        decoration: BoxDecoration(
+                                          color: Color(0xFFFFB459),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(
+                                                  width(context, 22))),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 6, top: 3),
+                                          child: Text(
+                                            // use BMI page to export results here
+                                            'Calculate BMI',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w800,
+                                              fontFamily: GoogleFonts.poppins()
+                                                  .fontFamily,
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -112,7 +223,6 @@ class _DietState extends State<Diet> {
                                       bottomLeft: Radius.circular(16),
                                       bottomRight: Radius.circular(16)),
                                 ),
-
                                 // Makes the button stretch to the full width of its parent
                                 minimumSize: const Size.fromHeight(60),
                               ),
@@ -184,6 +294,7 @@ class _DietState extends State<Diet> {
                                                 builder: (context) =>
                                                     const Diet2()),
                                           );
+                                          print("diet2.dart rendered");
                                         },
                                         child: Container(
                                           height: 48,
