@@ -119,7 +119,7 @@ class _NavigationPageState extends State<NavigationPage> {
       DailyJournalPage(), // connect this to firebase later
       Home(user: widget.user),
       Exercise(), // connected to login flow for testing purposes.
-      Text("Communiuty")
+      Center(child: Text("Under Development"))
     ];
     return Scaffold(
         body: Pages[_currentindex],
