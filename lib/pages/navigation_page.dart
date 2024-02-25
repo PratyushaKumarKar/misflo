@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:misflo/pages/daily_journal.dart';
+import 'package:misflo/pages/exercise.dart';
 import 'package:misflo/pages/home.dart';
 import 'package:misflo/pages/signup1.dart';
 import 'package:misflo/utils/screentools.dart';
@@ -117,7 +118,7 @@ class _NavigationPageState extends State<NavigationPage> {
       Diet(user: widget.user),
       DailyJournalPage(), // connect this to firebase later
       Home(user: widget.user),
-      Text("exercise"), // connected to login flow for testing purposes.
+      Exercise(), // connected to login flow for testing purposes.
       Text("Communiuty")
     ];
     return Scaffold(
