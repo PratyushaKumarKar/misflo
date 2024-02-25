@@ -44,8 +44,8 @@ class _SleepMusicState extends State<SleepMusic> {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(20), // Adjust as needed
-            child: Image.network(
-              'https://via.placeholder.com/350x150', // Replace with your image URL
+            child: Image.asset(
+              'assets/music_banner.png', // Replace with your image URL
               fit: BoxFit.cover,
             ),
           ),
@@ -102,5 +102,3 @@ class _SleepMusicState extends State<SleepMusic> {
     );
   }
 }
-
-

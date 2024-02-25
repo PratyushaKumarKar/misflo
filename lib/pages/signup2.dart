@@ -1,7 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:misflo/pages/navigation_page.dart';
 
 class SignUp2 extends StatefulWidget {
+  final User user;
+
+  const SignUp2({super.key, required this.user});
   @override
   _SignUp2State createState() => _SignUp2State();
 }
@@ -142,7 +147,13 @@ class _SignUp2State extends State<SignUp2> {
                 ),
               ),
               onPressed: () {
-                // Implement the 'Start' button functionality
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => NavigationPage(
+                            user: widget.user,
+                          )),
+                );
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(

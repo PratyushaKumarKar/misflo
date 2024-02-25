@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:misflo/pages/doctor.dart';
 import 'package:misflo/pages/login.dart';
 import 'package:misflo/utils/screentools.dart';
@@ -171,8 +172,9 @@ class _HomeState extends State<Home> {
                         PopupMenuItem(
                           child: Text('Log Out'),
                           onTap: () async {
+                            final GoogleSignIn googleSignIn = GoogleSignIn();
                             await FirebaseAuth.instance.signOut();
-
+                            await googleSignIn.signOut();
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(builder: (context) => Login()),

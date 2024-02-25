@@ -115,9 +115,9 @@ class _NavigationPageState extends State<NavigationPage> {
   Widget build(BuildContext context) {
     List<Widget> Pages = [
       Diet(user: widget.user),
-      DailyJournalPage(),     // connect this to firebase later
+      DailyJournalPage(), // connect this to firebase later
       Home(user: widget.user),
-      SignUp1(),             // connected to login flow for testing purposes.
+      Text("exercise"), // connected to login flow for testing purposes.
       Text("Communiuty")
     ];
     return Scaffold(

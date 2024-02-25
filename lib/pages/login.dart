@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:misflo/pages/home.dart';
 import 'package:misflo/pages/navigation_page.dart';
+import 'package:misflo/pages/signup1.dart';
 import 'package:misflo/utils/screentools.dart';
 
 class Login extends StatelessWidget {
@@ -300,6 +301,8 @@ Future<void> _updateUserData(User user) async {
     'email': user.email,
     'photoURL': user.photoURL,
     'periodLastLog': DateTime.now(),
+    'firstTimeWidgetUser': true,
+    "onPeriod": false,
   });
 }
 
@@ -328,10 +331,10 @@ Future<void> _signInWithGoogle(BuildContext context) async {
       // User is signed in
       await _updateUserData(user);
 
-      Navigator.pushReplacement(
+      Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => NavigationPage(
+            builder: (context) => SignUp1(
                   user: user,
                 )),
       );

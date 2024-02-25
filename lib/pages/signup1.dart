@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:misflo/pages/signup2.dart';
 
 class SignUp1 extends StatefulWidget {
-  const SignUp1({super.key});
+  final User user;
+  const SignUp1({super.key, required this.user});
 
   @override
   _SignUp1State createState() => _SignUp1State();
@@ -78,8 +80,12 @@ class _SignUp1State extends State<SignUp1> {
                 ),
                 onPressed: () {
                   // TODO: Implement the 'Next Step' button functionality
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SignUp2()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SignUp2(
+                                user: widget.user,
+                              )));
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
