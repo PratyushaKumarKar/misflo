@@ -9,5 +9,6 @@ Connect your mobile device to Flutter and run :
 
 `flutter run --release`
 
-If you encounter error for establishing firebase connection during Login , it is due to mismatching SHA keys ( low chances )
+If you encounter error for establishing firebase connection during Login , it is due to mismatching SHA keys ( low chances ).
+
 Contact (pratyushakumarkar15@gmail.com) for access.
