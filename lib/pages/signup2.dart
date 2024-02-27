@@ -1,12 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:misflo/models/user.dart';
 import 'package:misflo/pages/navigation_page.dart';
 
 class SignUp2 extends StatefulWidget {
   final User user;
-
-  const SignUp2({super.key, required this.user});
+  final UserProfile userProfile;
+  const SignUp2({super.key, required this.user, required this.userProfile});
   @override
   _SignUp2State createState() => _SignUp2State();
 }
@@ -146,7 +148,44 @@ class _SignUp2State extends State<SignUp2> {
                   borderRadius: BorderRadius.circular(30), // Rounded corners
                 ),
               ),
-              onPressed: () {
+              onPressed: () async {
+                final CollectionReference users =
+                    FirebaseFirestore.instance.collection('users');
+
+                // Reference to the document for the current user
+                final DocumentReference userDoc = users.doc(widget.user.uid);
+
+                // Get the selected goals
+                List<String> selectedGoals = [];
+                for (int i = 0; i < _selectedGoals.length; i++) {
+                  if (_selectedGoals[i]) {
+                    selectedGoals.add(goals[i]);
+                  }
+                }
+
+                // Create a dictionary with the user information
+                Map<String, dynamic> userInfo = {
+                  "name": widget.userProfile.name,
+                  "pronouns": widget.userProfile.pronouns,
+                  "age": widget.userProfile.age,
+                  "weight": widget.userProfile.weight,
+                  "height": widget.userProfile.height,
+                  "phone": widget.userProfile.phone,
+                  "lastPeriodDate": _lastPeriodDate,
+                  "cycleLength": int.tryParse(_cycleLengthController.text),
+                  "hasThyroid": _hasThyroid,
+                  "waistCircumference":
+                      double.tryParse(_waistCircumferenceController.text),
+                  "dailyWaterIntake":
+                      double.tryParse(_dailyWaterIntakeController.text),
+                  "goals": selectedGoals,
+                };
+
+                await userDoc.update({
+                  "userinfo": userInfo,
+                  "profileBuilt": true,
+                });
+
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
