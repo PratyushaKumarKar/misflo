@@ -87,7 +87,7 @@ class _SectionChatState extends State<SectionChat> {
                         ),
                       ),
                     )
-                  : const Center(child: Text('Search something!')),
+                  : const Center(child: Text('Start a Chat!')),
             ),
             if (loading) const CircularProgressIndicator(),
             ChatInputBox(
