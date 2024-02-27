@@ -45,9 +45,6 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key, this.user}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    var screenWidth = MediaQuery.of(context).size.width * 3;
-    var screenHeight = MediaQuery.of(context).size.height * 3;
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: user == null
