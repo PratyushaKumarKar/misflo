@@ -289,21 +289,29 @@ class Login extends StatelessWidget {
 }
 
 Future<void> _updateUserData(User user) async {
-  // Update user data in Firestore
+  // Reference to the users collection in Firestore
   final CollectionReference users =
       FirebaseFirestore.instance.collection('users');
 
+  // Reference to the document for the current user
   final DocumentReference userDoc = users.doc(user.uid);
 
-  await userDoc.set({
-    'uid': user.uid,
-    'displayName': user.displayName,
-    'email': user.email,
-    'photoURL': user.photoURL,
-    'periodLastLog': DateTime.now(),
-    'firstTimeWidgetUser': true,
-    "onPeriod": false,
-  });
+  // Check if the user data already exists
+  final DocumentSnapshot userSnapshot = await userDoc.get();
+
+  if (!userSnapshot.exists) {
+    // User data does not exist, set the data
+    await userDoc.set({
+      'uid': user.uid,
+      'displayName': user.displayName,
+      'email': user.email,
+      'photoURL': user.photoURL,
+      'periodLastLog': DateTime.now(),
+      'firstTimeWidgetUser': true,
+      "onPeriod": false,
+      "profileBuilt": false,
+    });
+  }
 }
 
 Future<void> _signInWithGoogle(BuildContext context) async {
@@ -324,20 +332,37 @@ Future<void> _signInWithGoogle(BuildContext context) async {
 
     final UserCredential authResult =
         await FirebaseAuth.instance.signInWithCredential(credential);
-
     final User? user = authResult.user;
 
     if (user != null) {
       // User is signed in
       await _updateUserData(user);
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => SignUp1(
-                  user: user,
-                )),
-      );
+      // Check if the user's profile is built
+      final DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .get();
+      final Map<String, dynamic>? userData =
+          userSnapshot.data() as Map<String, dynamic>?;
+      final bool profileBuilt = userData?['profileBuilt'] ?? false;
+
+      if (profileBuilt) {
+        // If profile is built, navigate to NavigationPage
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => NavigationPage(
+                    user: user,
+                  )),
+        );
+      } else {
+        // If profile is not built, navigate to SignUp1
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => SignUp1(user: user)),
+        );
+      }
 
       print('User signed in with Google: ${user.displayName}');
     }

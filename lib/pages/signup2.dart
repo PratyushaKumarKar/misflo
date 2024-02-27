@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -146,7 +147,15 @@ class _SignUp2State extends State<SignUp2> {
                   borderRadius: BorderRadius.circular(30), // Rounded corners
                 ),
               ),
-              onPressed: () {
+              onPressed: () async {
+                final CollectionReference users =
+                    FirebaseFirestore.instance.collection('users');
+
+                // Reference to the document for the current user
+                final DocumentReference userDoc = users.doc(widget.user.uid);
+                await userDoc.update({
+                  "profileBuilt": true,
+                });
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
