@@ -122,6 +122,8 @@ class PeriodTrackButton extends StatelessWidget {
                           .doc(widget
                               .user.uid) // Assuming you have the user's UID
                           .update({
+                        "userinfo.periodLastLog": DateTime.now(),
+                        "userinfo.onPeriod": !onPeriod,
                         'firstTimeWidgetUser': false,
                         "onPeriod": !onPeriod,
                         "periodLastLog": DateTime.now(),

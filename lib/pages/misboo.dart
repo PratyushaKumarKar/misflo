@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:misflo/utils/screentools.dart';
 
 class SectionChat extends StatefulWidget {
@@ -30,7 +31,17 @@ class _SectionChatState extends State<SectionChat> {
     final docSnapshot =
         await FirebaseFirestore.instance.collection('users').doc(uid).get();
     if (docSnapshot.exists && docSnapshot.data() != null) {
-      return docSnapshot.data()!['userinfo'] as Map<String, dynamic>;
+      Map<String, dynamic> userData =
+          docSnapshot.data()!['userinfo'] as Map<String, dynamic>;
+
+      // Convert timestamps to date strings
+      userData.forEach((key, value) {
+        if (value is Timestamp) {
+          userData[key] = DateFormat('dd-MM-yyyy').format(value.toDate());
+        }
+      });
+
+      return userData;
     }
     return {};
   }
