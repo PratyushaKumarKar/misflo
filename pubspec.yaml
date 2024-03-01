@@ -52,6 +52,7 @@ dependencies:
   syncfusion_flutter_datepicker: 24.2.3 
   image_picker: ^1.0.7
   just_audio: ^0.9.36
+  flutter_widget_from_html: ^0.14.11
 
 
 dev_dependencies:

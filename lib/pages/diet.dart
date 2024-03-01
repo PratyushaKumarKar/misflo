@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:misflo/pages/diet2.dart';
 import 'package:misflo/utils/screentools.dart';
+import 'package:misflo/widgets/bloglistwidget.dart';
 
 class Diet extends StatefulWidget {
   final User user;
@@ -43,7 +46,7 @@ class _DietState extends State<Diet> {
             top: height(context, 73),
             left: 0,
             child: Container(
-              height: height(context, 801),
+              height: height(context, 752),
               width: MediaQuery.of(context).size.width,
               child: SingleChildScrollView(
                 child: Padding(
@@ -333,34 +336,56 @@ class _DietState extends State<Diet> {
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            'Blogs',
+                            'Featured Blogs',
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),
-                      ListView.builder(
-                        physics:
-                            const NeverScrollableScrollPhysics(), // to disable ListView's scrolling
-                        shrinkWrap:
-                            true, // Use this to make ListView inside Column/SingleChildScrollView
-                        itemCount: 12, // Assuming there are 4 blog posts
-                        itemBuilder: (BuildContext context, int index) {
-                          // Placeholder for blog post item, replace with your data model
-                          return Card(
-                            elevation: 1.0,
-                            color: Colors.white,
-                            child: Padding(
-                              padding: const EdgeInsets.all(26),
-                              // Increase padding to increase height
-                              child: BlogPostItem(
-                                date: '1ST MAY - SAT 2:00 PM',
-                                title: 'How music helps in weight loss',
-                                author: 'DR. XYZ',
-                                imageUrl:
-                                    'assets/blog_post_image_$index.jpg', // Image path kept as provided
-                              ),
-                            ),
+                      FutureBuilder<QuerySnapshot>(
+                        future: FirebaseFirestore.instance
+                            .collection('blogs')
+                            .get(),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<QuerySnapshot> snapshot) {
+                          if (snapshot.hasError) {
+                            return Text('Something went wrong');
+                          }
+
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return CircularProgressIndicator();
+                          }
+
+                          return ListView(
+                            physics:
+                                const NeverScrollableScrollPhysics(), // to disable ListView's scrolling
+                            shrinkWrap:
+                                true, // Use this to make ListView inside Column/SingleChildScrollView
+                            children: snapshot.data!.docs
+                                .map((DocumentSnapshot document) {
+                              Map<String, dynamic> data =
+                                  document.data()! as Map<String, dynamic>;
+                              return Container(
+                                child: Card(
+                                  elevation: 2.0,
+                                  surfaceTintColor: Colors.white,
+                                  color: Colors.white,
+                                  child: Padding(
+                                    padding:
+                                        EdgeInsets.all(height(context, 8.0)),
+                                    child: BlogPostItem(
+                                      textcontent: data["text-content"],
+                                      date:
+                                          (data['date'] as Timestamp).toDate(),
+                                      title: data['title'],
+                                      author: data['author'],
+                                      imageUrl: data['image'],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }).toList(),
                           );
                         },
                       ),
@@ -372,30 +397,6 @@ class _DietState extends State<Diet> {
           ),
         ],
       ),
-    );
-  }
-}
-
-class BlogPostItem extends StatelessWidget {
-  final String date;
-  final String title;
-  final String author;
-  final String imageUrl;
-
-  const BlogPostItem({
-    Key? key,
-    required this.date,
-    required this.title,
-    required this.author,
-    required this.imageUrl,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: Image.asset(imageUrl), // Image path kept as provided
-      title: Text(title),
-      subtitle: Text('$date by $author'),
     );
   }
 }
